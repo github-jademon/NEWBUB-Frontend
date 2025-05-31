@@ -11,28 +11,22 @@
         <!-- 사이드바 제목은 헤더로 옮겼으니 삭제 -->
         <!-- <h2>NEWB 대시보드</h2> -->
 
-        <!-- 홈 버튼: 활성화 스타일 없음 -->
-        <router-link
+        <!-- 홈 버튼: 활성화 제거 -->
+        <!-- <router-link
           to="/issue"
           class="nav-link home-link"
           exact-active-class=""
           aria-label="Home"
         >
           🏠
-        </router-link>
+        </router-link> -->
 
-        <router-link to="/issue" class="nav-link">
-          ISSUE
-        </router-link>
-        <router-link to="/law" class="nav-link">
-          LAW
-        </router-link>
+        <router-link to="/issue" class="nav-link"> ISSUE </router-link>
+        <router-link to="/law" class="nav-link"> LAW </router-link>
         <router-link to="/party" class="nav-link">
           POLITICAL PARTY
         </router-link>
-        <router-link to="/news" class="nav-link">
-          NEWS LIST
-        </router-link>
+        <router-link to="/news" class="nav-link"> NEWS LIST </router-link>
       </aside>
 
       <!-- 오른쪽 페이지 내용 -->
@@ -45,8 +39,8 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App",
+};
 </script>
 
 <style scoped>
@@ -69,7 +63,7 @@ export default {
   padding-left: 20px;
   font-weight: bold;
   font-size: 1.2em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   user-select: none;
   text-decoration: none; /* 링크 기본 밑줄 제거 */
   color: #2c3e50; /* 링크 색상 */
