@@ -26,12 +26,8 @@
       </div>
     </div>
 
-    <!-- 더보기 버튼 -->
-    <div
-      v-if="visibleCount < top5Data.length"
-      class="load-more"
-      @click="loadMore"
-    >
+    <!-- 더보기 버튼 (항상 표시) -->
+    <div class="load-more" @click="loadMore">
       + 더보기
     </div>
   </div>
@@ -42,7 +38,7 @@ export default {
   name: 'PartyDetailPage',
   data() {
     return {
-      visibleCount: 5,
+      visibleCount: 12,
       top5Data: [
         {
           keyword: '대통령',
@@ -155,15 +151,15 @@ export default {
   methods: {
     getPartyColor(name) {
       const colorMap = {
-        '더불어민주당': '#4A90E2',
-        '국민의힘': '#D0021B',
-        '개혁신당': '#F5A623',
-        '진보당': '#7ED321',
-        '기본소득당': '#BD10E0',
-        '조국혁신당': '#FF9F00',
-        '사회민주당': '#50E3C2',
-        '국민의미래': '#9013FE',
-        '새미래민주당': '#8B572A',
+        '더불어민주당': '#A7C7E7',
+        '국민의힘': '#F8A5A5',
+        '개혁신당': '#FFD59E',
+        '진보당': '#C8E6C9',
+        '기본소득당': '#E3D0FF',
+        '조국혁신당': '#FFFACD',
+        '사회민주당': '#B2EBF2',
+        '국민의미래': '#E1BEE7',
+        '새미래민주당': '#D7CCC8',
       };
       return colorMap[name] || '#ccc';
     },
@@ -171,7 +167,9 @@ export default {
       this.$router.push({ name: 'Keyword', params: { name: keywordName } });
     },
     loadMore() {
-      this.visibleCount += 5;
+      if (this.visibleCount < this.top5Data.length) {
+        this.visibleCount = Math.min(this.visibleCount + 5, this.top5Data.length);
+      }
     },
   },
 };

@@ -15,7 +15,13 @@
 
     <!-- 📂 카테고리 선택 (가로 스크롤) -->
     <div class="category-scroll">
-      <div class="category" v-for="category in categories" :key="category">
+      <div
+        class="category"
+        v-for="category in categories"
+        :key="category"
+        :class="{ selected: selectedCategory === category }"
+        @click="selectCategory(category)"
+      >
         {{ category }}
       </div>
     </div>
@@ -23,12 +29,12 @@
     <!-- 🔢 키워드 리스트 -->
     <ul class="keyword-list">
       <li
-        v-for="(keyword, index) in keywords"
-        :key="keyword"
-        @click="goToKeyword(keyword)"
+        v-for="(keyword, index) in filteredKeywords"
+        :key="keyword.name"
+        @click="goToKeyword(keyword.name)"
         class="keyword-item"
       >
-        {{ index + 1 }}. #{{ keyword }}
+        {{ index + 1 }}. #{{ keyword.name }}
       </li>
     </ul>
   </div>
@@ -40,15 +46,38 @@ export default {
   data() {
     return {
       searchQuery: '',
+      selectedCategory: '전체',
       categories: [
         '전체', '정치', '사회', '경제', '지역', '국제',
         '문화.라이프', '스포츠', '과학', '건강', '산업',
       ],
-      keywords: ['선거', '탄핵', '복지', '전쟁', '청년정책']
+      keywords: [
+        { name: '선거', category: '정치' },
+        { name: '탄핵', category: '정치' },
+        { name: '복지', category: '사회' },
+        { name: '전쟁', category: '국제' },
+        { name: '청년정책', category: '사회' },
+        { name: '경제성장', category: '경제' },
+        { name: '지역개발', category: '지역' },
+      ]
+    }
+  },
+  computed: {
+    filteredKeywords() {
+      if (this.selectedCategory === '전체') {
+        return this.keywords;
+      }
+      return this.keywords.filter(k => k.category === this.selectedCategory);
     }
   },
   mounted() {
-    this.enableMouseScroll()
+    this.enableMouseScroll();
+
+    // 쿼리로 넘어온 카테고리가 있으면 기본 선택값으로 설정
+    const queryCategory = this.$route.query.category;
+    if (queryCategory && this.categories.includes(queryCategory)) {
+      this.selectedCategory = queryCategory;
+    }
   },
   methods: {
     goToSearch() {
@@ -61,6 +90,9 @@ export default {
     },
     goToKeyword(keyword) {
       this.$router.push({ name: 'Keyword', params: { name: keyword } });
+    },
+    selectCategory(category) {
+      this.selectedCategory = category;
     },
     enableMouseScroll() {
       const el = this.$el.querySelector('.category-scroll');
@@ -121,7 +153,6 @@ export default {
   cursor: pointer;
 }
 
-/* 📂 카테고리 영역 */
 .category-scroll {
   display: flex;
   overflow-x: auto;
@@ -144,9 +175,14 @@ export default {
   border-radius: 20px;
   cursor: pointer;
   flex-shrink: 0;
+  user-select: none;
 }
 
-/* 🔢 키워드 리스트 */
+.category.selected {
+  background-color: #4A90E2;
+  color: white;
+}
+
 .keyword-list {
   list-style: none;
   padding: 0;

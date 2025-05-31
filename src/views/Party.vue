@@ -28,7 +28,11 @@
       </div>
     </div>
 
-    <div class="section-title">
+    <div
+      class="section-title"
+      @click="goToPartyContribution('전체')"
+      style="cursor: pointer;"
+    >
       <span>🚩 정당별 키워드 관여도 ></span>
     </div>
 
@@ -37,6 +41,8 @@
         v-for="(party, index) in parties"
         :key="index"
         class="party-circle"
+        @click="goToPartyContribution(party.name)"
+        style="cursor: pointer;"
       >
         <img :src="party.logo" :alt="party.name" />
         <div class="party-name">{{ party.name }}</div>
@@ -54,11 +60,11 @@ export default {
         {
           keyword: '대통령',
           parties: [
-            { name: '더불어민주당', percentage: 30, color: '#A7C7E7' },   // 연파랑
-            { name: '국민의힘', percentage: 25, color: '#F8A5A5' },       // 연빨강
-            { name: '개혁신당', percentage: 20, color: '#FFD59E' },       // 연주황
-            { name: '진보당', percentage: 15, color: '#C8E6C9' },         // 연초록
-            { name: '기본소득당', percentage: 10, color: '#E3D0FF' },     // 연보라
+            { name: '더불어민주당', percentage: 30, color: '#A7C7E7' },
+            { name: '국민의힘', percentage: 25, color: '#F8A5A5' },
+            { name: '개혁신당', percentage: 20, color: '#FFD59E' },
+            { name: '진보당', percentage: 15, color: '#C8E6C9' },
+            { name: '기본소득당', percentage: 10, color: '#E3D0FF' },
           ],
         },
         {
@@ -77,7 +83,7 @@ export default {
             { name: '기본소득당', percentage: 35, color: '#E3D0FF' },
             { name: '진보당', percentage: 25, color: '#C8E6C9' },
             { name: '더불어민주당', percentage: 20, color: '#A7C7E7' },
-            { name: '사회민주당', percentage: 15, color: '#B2EBF2' },     // 민트
+            { name: '사회민주당', percentage: 15, color: '#B2EBF2' },
             { name: '국민의힘', percentage: 5, color: '#F8A5A5' },
           ],
         },
@@ -87,7 +93,7 @@ export default {
             { name: '국민의힘', percentage: 30, color: '#F8A5A5' },
             { name: '더불어민주당', percentage: 25, color: '#A7C7E7' },
             { name: '개혁신당', percentage: 20, color: '#FFD59E' },
-            { name: '국민의미래', percentage: 15, color: '#E1BEE7' },     // 연보라 (보라 계열)
+            { name: '국민의미래', percentage: 15, color: '#E1BEE7' },
             { name: '기본소득당', percentage: 10, color: '#E3D0FF' },
           ],
         },
@@ -96,9 +102,9 @@ export default {
           parties: [
             { name: '기본소득당', percentage: 32, color: '#E3D0FF' },
             { name: '더불어민주당', percentage: 28, color: '#A7C7E7' },
-            { name: '조국혁신당', percentage: 20, color: '#FFFACD' },     // 연노랑
+            { name: '조국혁신당', percentage: 20, color: '#FFFACD' },
             { name: '국민의힘', percentage: 10, color: '#F8A5A5' },
-            { name: '새미래민주당', percentage: 10, color: '#D7CCC8' },   // 연갈색
+            { name: '새미래민주당', percentage: 10, color: '#D7CCC8' },
           ],
         },
         {
@@ -133,41 +139,39 @@ export default {
     goToKeyword(keywordName) {
       this.$router.push({ name: 'Keyword', params: { name: keywordName } });
     },
+    goToPartyContribution(partyName) {
+      this.$router.push({ path: '/party-contribution', query: { party: partyName } });
+    },
   },
 };
 </script>
 
 <style scoped>
+/* 그대로 유지 */
 .party-page {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
 }
-
 .page-title {
   font-size: 32px;
   margin-bottom: 20px;
 }
-
 .section-title {
   font-size: 20px;
   margin: 20px 0 10px;
 }
-
 .keyword-top5 {
   margin-bottom: 30px;
 }
-
 .keyword-row {
   margin-bottom: 16px;
 }
-
 .bars {
   display: flex;
   gap: 6px;
   margin-top: 6px;
 }
-
 .bar {
   color: white;
   padding: 4px;
@@ -176,16 +180,13 @@ export default {
   border-radius: 4px;
   white-space: nowrap;
 }
-
 .keyword-name {
   cursor: pointer;
   color: #4A90E2;
 }
-
 .keyword-name:hover {
   text-decoration: underline;
 }
-
 .party-logos {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -193,18 +194,15 @@ export default {
   margin-top: 20px;
   justify-items: center;
 }
-
 .party-circle {
   text-align: center;
 }
-
 .party-circle img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
-
 .party-name {
   margin-top: 8px;
   font-size: 14px;

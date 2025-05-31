@@ -17,19 +17,28 @@
     <table class="law-table">
       <thead>
         <tr>
-          <th>#</th>
-          <th>법안명</th>
-          <th>처리 현황</th>
+          <th class="col-number">#</th>
+          <th class="col-title">법안명</th>
+          <th class="col-status">처리 현황</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(law, index) in laws" :key="index">
+        <tr v-for="(law, index) in visibleLaws" :key="index">
           <td>{{ index + 1 }}</td>
-          <td>{{ law.name }}</td>
+          <td>
+            <router-link :to="{ name: 'LawDetail', params: { id: index + 1 } }">
+              {{ law.name }}
+            </router-link>
+          </td>
           <td>{{ law.status }}</td>
         </tr>
       </tbody>
     </table>
+
+    <!-- 더보기 버튼 -->
+    <div class="load-more" v-if="visibleCount < laws.length">
+      <button @click="loadMore">더보기</button>
+    </div>
   </div>
 </template>
 
@@ -39,12 +48,19 @@ export default {
   data() {
     return {
       searchQuery: '',
+      visibleCount: 30,
       laws: [
-        { name: '디자인보호법 일부개정법률안(대안)', status: '접수' },
-        { name: '전기안전관리법 일부개정법률안(대안)', status: '공포' },
-        { name: '도로교통법 일부개정법률안', status: '의결' },
-        { name: '공공기관 운영에 관한 법률안', status: '계류' },
+        // 예시 데이터 50개
+        ...Array.from({ length: 50 }, (_, i) => ({
+          name: `법안 ${i + 1} - 예시법안 제목`,
+          status: ['접수', '소관위 심사', '본회의 심의', '공포'][i % 4]
+        }))
       ]
+    };
+  },
+  computed: {
+    visibleLaws() {
+      return this.laws.slice(0, this.visibleCount);
     }
   },
   methods: {
@@ -55,14 +71,17 @@ export default {
           query: { q: this.searchQuery }
         });
       }
+    },
+    loadMore() {
+      this.visibleCount += 30;
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .law-page {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -105,5 +124,30 @@ h1 {
 
 .law-table th {
   background-color: #f2f2f2;
+}
+
+/* 📏 칼럼 크기 조정 */
+.col-number {
+  width: 50px;
+}
+
+.col-status {
+  width: 120px;
+}
+
+.col-title {
+  width: auto;
+}
+
+/* 더보기 버튼 */
+.load-more {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.load-more button {
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
