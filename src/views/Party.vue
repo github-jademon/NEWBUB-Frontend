@@ -93,7 +93,7 @@ export default {
             { name: '국민의힘', percentage: 30, color: '#F8A5A5' },
             { name: '더불어민주당', percentage: 25, color: '#A7C7E7' },
             { name: '개혁신당', percentage: 20, color: '#FFD59E' },
-            { name: '국민의미래', percentage: 15, color: '#E1BEE7' },
+            { name: '국민의미래', percentage: 15, color: '#F8C8C4' },
             { name: '기본소득당', percentage: 10, color: '#E3D0FF' },
           ],
         },

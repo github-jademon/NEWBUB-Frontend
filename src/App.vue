@@ -2,7 +2,7 @@
   <div id="app" class="container">
     <!-- 상단 헤더 바 (router-link로 변경해서 클릭 시 /issue로 이동) -->
     <router-link to="/issue" class="topbar" aria-label="Go to ISSUE tab">
-      NEWB 대시보드
+      NEWBUB
     </router-link>
 
     <!-- 사이드바 + 페이지 컨텐츠 영역 -->

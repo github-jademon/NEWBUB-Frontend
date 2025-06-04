@@ -1,5 +1,5 @@
 <template>
-  <div class="issue-page">
+  <div class="issue-search-page">
     <h1>ISSUE</h1>
 
     <!-- 🔍 검색창 -->
@@ -19,19 +19,19 @@
         class="category"
         v-for="category in categories"
         :key="category"
-        @click="goToIssueCategory(category)"
+        @click="goToIssueTab(category)"
       >
         {{ category }}
       </div>
     </div>
 
-    <!-- 🔍 검색 결과 키워드 리스트 -->
+    <!-- 🔢 키워드 리스트 -->
     <ul class="keyword-list">
       <li
-        v-for="(keyword, index) in matchedKeywords"
+        v-for="(keyword, index) in filteredKeywords"
         :key="keyword.name"
-        @click="goToKeyword(keyword.name)"
         class="keyword-item"
+        @click="goToKeyword(keyword.name)"
       >
         {{ index + 1 }}. #{{ keyword.name }}
       </li>
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: 'IssueSearchPage',
+  name: 'IssueSearch',
   data() {
     return {
       searchQuery: this.$route.query.q || '',
@@ -61,10 +61,10 @@ export default {
     };
   },
   computed: {
-    matchedKeywords() {
-      if (!this.searchQuery.trim()) return [];
+    filteredKeywords() {
+      const query = this.searchQuery.trim().toLowerCase();
       return this.keywords.filter(k =>
-        k.name.includes(this.searchQuery.trim())
+        k.name.toLowerCase().includes(query)
       );
     }
   },
@@ -73,25 +73,25 @@ export default {
       if (this.searchQuery.trim()) {
         this.$router.push({
           path: '/issue-search',
-          query: { q: this.searchQuery.trim() }
+          query: { q: this.searchQuery }
         });
       }
     },
-    goToKeyword(keyword) {
-      this.$router.push({ name: 'Keyword', params: { name: keyword } });
-    },
-    goToIssueCategory(category) {
+    goToIssueTab(category) {
       this.$router.push({
-        name: 'Issue',
-        query: { category: category }
+        path: '/issue',
+        query: { category }
       });
+    },
+    goToKeyword(keyword) {
+      this.$router.push({ name: 'IssueKeyword', params: { name: keyword } });
     }
   }
 };
 </script>
 
 <style scoped>
-.issue-page {
+.issue-search-page {
   max-width: 800px;
   margin: 0 auto;
 }
@@ -122,7 +122,7 @@ export default {
   margin-bottom: 20px;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  cursor: pointer;
+  cursor: grab;
 }
 
 .category-scroll::-webkit-scrollbar {
@@ -134,6 +134,7 @@ export default {
   padding: 8px 16px;
   background-color: #e0e0e0;
   border-radius: 20px;
+  cursor: pointer;
   flex-shrink: 0;
   user-select: none;
 }
