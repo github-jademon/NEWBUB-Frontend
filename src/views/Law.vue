@@ -1,153 +1,302 @@
 <template>
   <div class="law-page">
-    <h1>LAW</h1>
+    <div class="law-title">LAW</div>
 
-    <!-- 🔍 검색창 -->
-    <div class="search-box">
-      <input
-        v-model="searchQuery"
-        @keyup.enter="goToSearch"
-        type="text"
-        placeholder="법안명을 입력하세요"
-      />
-      <button @click="goToSearch">검색</button>
+    <div class="law-content">
+      <div class="law-item">
+        <div class="law-text">
+          <div>찾고 싶은 법안을</div>
+          <div>쉽고 빠르게 검색해보세요</div>
+        </div>
+        <!-- 🔍 검색창 -->
+        <div class="search-box">
+          <label>
+            <input
+              v-model="searchQuery"
+              @keyup.enter="goToSearch"
+              type="text"
+              placeholder="키워드를 입력하세요"
+            />
+            <button @click="goToSearch">
+              <img src="../assets/ic-search.png" />
+            </button>
+          </label>
+        </div>
+      </div>
+
+      <div class="law-img">
+        <img src="../assets/lawImg.png" />
+      </div>
     </div>
 
     <!-- 📋 법안 리스트 -->
-    <table class="law-table">
-      <thead>
-        <tr>
-          <th class="col-number">#</th>
-          <th class="col-title">법안명</th>
-          <th class="col-status">처리 현황</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(law, index) in visibleLaws" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>
-            <router-link :to="{ name: 'LawDetail', params: { id: index + 1 } }">
-              {{ law.name }}
-            </router-link>
-          </td>
-          <td>{{ law.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="law-sub-title">
+      <img src="../assets/ic-law.png" />
+      <span></span>법안 처리 현황
+    </div>
+
+    <div class="law-table">
+      <div class="law-table-head">
+        <div class="law-table-row">
+          <div class="col-number law-table-item">번호</div>
+          <div class="col-title law-table-item">법안명</div>
+          <div class="col-status law-table-item">처리 현황</div>
+        </div>
+      </div>
+      <div class="law-table-body">
+        <div
+          class="law-table-row"
+          v-for="(law, index) in filteredLaws"
+          :key="index"
+        >
+          <div class="col-number law-table-item">
+            <div>{{ index + 1 }}</div>
+          </div>
+          <div class="col-title law-table-item" @click="goToLawDetail(law.id)">
+            {{ law.name }}
+          </div>
+          <div class="col-status law-table-item">
+            <div
+              :style="{
+                backgroundColor:
+                  colorList[law.processing_status - 1].background,
+                color: colorList[law.processing_status - 1].font,
+              }"
+            >
+              <!-- <div> -->
+              {{
+                ["접수", "소관위 처리", "법사위처리", "본회의 처리", "공포"][
+                  law.processing_status - 1
+                ]
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 더보기 버튼 -->
-    <div class="load-more" v-if="visibleCount < laws.length">
+    <div class="load-more" v-if="hasMore == true">
       <button @click="loadMore">더보기</button>
     </div>
   </div>
 </template>
 
-<script>
+<!-- <script>
 export default {
-  name: 'LawPage',
+  name: "LawPage",
   data() {
     return {
-      searchQuery: '',
-      visibleCount: 30,
+      searchQuery: this.$route.query.q || "",
+      page: 1,
+      hasMore: true,
       laws: [
-        // 예시 데이터 50개
-        ...Array.from({ length: 50 }, (_, i) => ({
-          name: `법안 ${i + 1} - 예시법안 제목`,
-          status: ['접수', '소관위 심사', '본회의 심의', '공포'][i % 4]
-        }))
-      ]
+        // 예시 데이터 10개
+        // ...Array.from({ length: 10 }, (_, i) => ({
+        //   name: `법안 ${i + 1} - 예시법안 제목`,
+        //   processing_status: [(i % 5) + 1],
+        //   id: i,
+        // })),
+      ],
     };
+  },
+  created() {
+    // 컴포넌트가 마운트될 때 데이터를 불러옵니다.
+    this.fetchLawsData();
   },
   computed: {
     visibleLaws() {
-      return this.laws.slice(0, this.visibleCount);
-    }
+      return this.laws;
+    },
   },
   methods: {
+    fetchLawsData() {
+      const data = async () => {
+        try {
+          const response = await fetch(
+            `/api/laws?page=${this.page}&q=${this.searchQuery}`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+          const result = await response.json();
+
+          return result;
+        } catch (error) {
+          console.log("error:", error);
+          this.laws = [...this.laws];
+          this.hasMore = false;
+        }
+      };
+
+      data().then((response) => {
+        console.log(response);
+
+        this.laws = [...this.laws, ...response.data];
+        console.log(this.laws);
+
+        this.hasMore = response.has_more;
+
+        if (response.hasMore == true) {
+          this.page += 1;
+        }
+      });
+    },
     goToSearch() {
       if (this.searchQuery.trim()) {
         this.$router.push({
-          path: '/law-search',
-          query: { q: this.searchQuery }
+          path: "/law",
+          query: { q: this.searchQuery },
         });
+        this.laws = [];
+        this.fetchLawsData();
       }
     },
-    loadMore() {
-      this.visibleCount += 30;
-    }
-  }
+  },
+};
+</script> -->
+
+<script>
+import { ref, computed, onMounted } from "vue";
+import { goToSearchFromCommon } from "../functions/common";
+import { fetchLawData } from "../functions/fetch";
+
+const exampleData = {
+  has_more: false,
+  data: [
+    {
+      id: 1,
+      name: "법안1",
+      processing_status: 2,
+      processing_result: "임기만료폐기",
+      date: "2025-06-05",
+      keywords: ["키워드1", "키워드2"],
+    },
+    {
+      id: 2,
+      name: "법안2",
+      processing_status: 3,
+      processing_result: "원안가결",
+      date: "2025-06-05",
+      keywords: ["키워드2", "키워드3"],
+    },
+    {
+      id: 19,
+      name: "법안19",
+      processing_status: 5,
+      processing_result: "임기만료폐기",
+      date: "2025-06-05",
+      keywords: ["키워드19", "키워드20"],
+    },
+  ],
+};
+
+export default {
+  name: "LawPage",
+  setup() {
+    const searchQuery = ref(""); // 사용자가 입력한 검색어
+    const page = ref(1); // 현재 페이지
+    const hasMore = ref(true); // 더보기 여부
+    const lawList = ref([]); // 뉴스 리스트
+    const colorList = [
+      {
+        // 접수
+        background: "#EEF5FF",
+        font: "#5097F2",
+      },
+      {
+        // 소관위
+        background: "#045DCF",
+        font: "#FFFFFF",
+      },
+      {
+        // 법사위
+        background: "#EEF5FF",
+        font: "#5097F2",
+      },
+      {
+        // 본회의
+        background: "#045DCF",
+        font: "#FFFFFF",
+      },
+      {
+        // 공포
+        background: "#EEF5FF",
+        font: "#5097F2",
+      },
+    ];
+
+    // filteredNews는 searchQuery와 selectedCategory에 따라 필터링된 뉴스
+    const filteredLaws = computed(() => {
+      let filtered = lawList.value;
+
+      console.log(filtered);
+
+      return filtered;
+    });
+
+    // 뉴스 더보기 함수
+    const loadMore = () => {
+      fetchLawData(
+        page.value,
+        searchQuery.value,
+        (newPage) => {
+          page.value = newPage;
+        },
+        (newLawList) => {
+          lawList.value = [...lawList.value, ...newLawList];
+        },
+        (more) => {
+          hasMore.value = more; // 더 이상 데이터가 없으면 false
+        }
+      );
+      if (lawList.value.length == 0) {
+        lawList.value = exampleData.data;
+        hasMore.value = exampleData.has_more;
+      }
+    };
+
+    // 검색어로 뉴스 필터링
+    const goToSearch = () => {
+      goToSearchFromCommon(
+        "/law",
+        searchQuery.value,
+        (newLawList) => {
+          lawList.value = newLawList;
+        },
+        loadMore
+      );
+    };
+
+    // 뉴스 상세 페이지로 이동
+    const goToKeyword = (name) => {
+      window.location.href = `/keyword/${name}`;
+    };
+
+    const goToLawDetail = (id) => {
+      window.location.href = `/law-detail?id=${id}`;
+    };
+
+    // 최초 마운트 시 데이터 불러오기
+    onMounted(() => {
+      loadMore();
+    });
+
+    return {
+      searchQuery,
+      lawList,
+      loadMore,
+      filteredLaws,
+      hasMore,
+      page,
+      goToSearch,
+      goToKeyword,
+      goToLawDetail,
+      colorList,
+    };
+  },
 };
 </script>
 
-<style scoped>
-.law-page {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-h1 {
-  margin-top: 20px;
-  font-size: 32px;
-}
-
-.search-box {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.search-box input {
-  flex: 1;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.search-box button {
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* 📋 법안 테이블 스타일 */
-.law-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.law-table th,
-.law-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-}
-
-.law-table th {
-  background-color: #f2f2f2;
-}
-
-/* 📏 칼럼 크기 조정 */
-.col-number {
-  width: 50px;
-}
-
-.col-status {
-  width: 120px;
-}
-
-.col-title {
-  width: auto;
-}
-
-/* 더보기 버튼 */
-.load-more {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.load-more button {
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-</style>
+<style src="../css/Law.css" scoped></style>
