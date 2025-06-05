@@ -36,6 +36,11 @@ const routes = [
   { path: '/issue-search', name: 'IssueSearch', component: IssueSearch },
   { path: '/law-search', name: 'LawSearch', component: LawSearch },
   { path: '/news-search', name: 'NewsSearch', component: NewsSearch },
+  { path: '/keyword/:keyword', name: 'Keyword', component: () => import('@/views/Keyword.vue')}
+
+
+  // { path: '/party-contribution/:name', name: 'PartyContribution', component: () => import('@/views/PartyContribution.vue') }
+
 ]
 
 const router = createRouter({

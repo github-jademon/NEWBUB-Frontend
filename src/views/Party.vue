@@ -33,7 +33,7 @@
       @click="goToPartyContribution('전체')"
       style="cursor: pointer;"
     >
-      <span>🚩 정당별 키워드 관여도 ></span>
+      <span>🚩 정당별 키워드 관여도 </span>
     </div>
 
     <div class="party-logos">
