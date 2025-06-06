@@ -24,9 +24,16 @@
         </div>
       </div>
 
-      <div class="img">
+      <div class="content-img">
         <img src="../assets/newsImg.png" />
       </div>
+    </div>
+
+    <div class="sub-title">
+      <div class="img">
+        <img src="../assets/newslist.png" />
+      </div>
+      <span>NEWS LIST</span>
     </div>
 
     <div class="table">

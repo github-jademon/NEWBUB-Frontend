@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="img">
+      <div class="content-img">
         <img src="../assets/lawImg.png" />
       </div>
     </div>

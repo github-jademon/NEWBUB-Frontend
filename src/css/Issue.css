@@ -8,3 +8,26 @@
 .col-keyword:hover {
   text-decoration: underline;
 }
+
+.issue-page .content {
+  margin-bottom: 30px;
+}
+
+.issue-page .content .item {
+  margin-top: -10px;
+}
+
+.issue-page .content .img {
+  margin-top: 10px;
+  /* width: 300px; */
+  padding-right: 10px;
+}
+
+.issue-page .sub-title {
+  font-size: 1;
+  gap: 2px;
+}
+
+/* .sub-title span {
+  margin: 5px;
+} */

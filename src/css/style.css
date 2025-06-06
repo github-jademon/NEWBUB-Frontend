@@ -1,3 +1,10 @@
+* {
+  font-family: "Pretendard Variable", "Pretendard", "-apple-system",
+    "BlinkMacSystemFont", system-ui, "Roboto", "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
 .page {
   max-width: 900px;
   margin: 0 auto;
@@ -50,7 +57,7 @@
 
 .category {
   white-space: nowrap;
-  padding: 8px 22px;
+  padding: 8px 18px;
   background-color: #dcebff;
   color: #4a5056;
   font-size: 14px;
@@ -80,14 +87,25 @@
 }
 
 .text {
+  display: flex;
+  flex-direction: column;
+  font-size: 34px;
+  gap: 5px;
+  letter-spacing: 1px;
   padding: 15px 0 10px;
-  font-size: 30px;
+  /* font-size: 30px; */
   font-weight: 700;
 }
 
-.img {
+.content-img {
   width: 320px;
   overflow: hidden;
+}
+
+.content-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .img img {
@@ -117,9 +135,9 @@ label {
 .search-box input {
   width: 100%;
   height: calc(100% - 16px);
-  font-size: 11px;
+  font-size: 12px;
   border-radius: 50px;
-  padding: 8px 40px;
+  padding: 8px 33px;
   outline: none;
   border: 1px solid #ced4da;
 }
@@ -150,13 +168,14 @@ label {
   gap: 5px;
   align-items: center;
   height: 20px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   overflow: hidden;
+  margin-bottom: -11px;
 }
 
 .sub-title span {
-  margin: -0.125rem 0 0;
+  margin: -0.05rem 0 0;
 }
 
 .sub-title .img {
@@ -181,13 +200,13 @@ label {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  padding: 20px;
+  padding: 1px 20px;
   overflow: hidden;
 }
 
 .table .table-head .table-row {
   border: 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .table .table-row {
@@ -195,7 +214,7 @@ label {
   flex-direction: row;
   justify-content: space-between;
   border: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #e9ecef;
   padding: 15px 10px;
   text-align: left;
   gap: 12px;
@@ -203,7 +222,7 @@ label {
 
 .table .table-head .table-item {
   font-weight: 600;
-  color: #888888;
+  color: #a8b0ba;
 }
 
 .table .table-item {

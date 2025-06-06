@@ -1,19 +1,31 @@
 <template>
-  <div class="law-detail">
+  <div class="law-detail page">
+    <div class="title">LAW</div>
+
     <!-- 법안 제목 -->
     <h1 class="law-title">{{ law.name }}</h1>
 
-    <!-- 처리 현황 -->
     <div class="process-status">
-      <div
-        v-for="(step, index) in processSteps"
-        :key="index"
-        :class="[
-          'process-step',
-          isStepCompleted(index) ? 'completed' : 'pending',
-        ]"
-      >
-        {{ step }}
+      <div class="process-status-content">
+        <div
+          v-for="(step, index) in processSteps"
+          :key="index"
+          :class="[
+            'process-step',
+            isStepCompleted(index) == true ? 'completed' : 'pending',
+          ]"
+        >
+          <div :class="['line', index < 1 ? 'line-none' : '']"></div>
+          <div class="icon"><img :src="step.icon" /></div>
+          <div
+            :class="[
+              'line',
+              index > 3 ? 'line-none' : '',
+              isStepCompletedEnd(index) ? 'line-end' : '',
+            ]"
+          ></div>
+          <div class="process-name">{{ step.name }}</div>
+        </div>
       </div>
     </div>
 
@@ -40,11 +52,6 @@
         <div class="proposal-content">
           <h2>제안 이유 및 주요 내용</h2>
 
-          <!-- <h3>1. 제안 이유</h3>
-          <p>{{ law.proposalReason }}</p>
-
-          <h3>2. 주요 내용</h3>
-          <p>{{ law.mainContent }}</p> -->
           {{ law.text }}
 
           <div class="more-link" @click="goToOriginalLink">
@@ -118,15 +125,33 @@ export default {
     const lawId = ref(route.params.id || "");
     const law = ref(exampleData);
     const processSteps = ref([
-      "접수",
-      "소관위 처리",
-      "법사위 처리",
-      "본회의 처리",
-      "공포",
+      {
+        name: "접수",
+        icon: require("../assets/process1.png"),
+      },
+      {
+        name: "소관위 처리",
+        icon: require("../assets/process2.png"),
+      },
+      {
+        name: "법사위 처리",
+        icon: require("../assets/process3.png"),
+      },
+      {
+        name: "본회의 처리",
+        icon: require("../assets/process4.png"),
+      },
+      {
+        name: "공포",
+        icon: require("../assets/process5.png"),
+      },
     ]);
     const currentProcessIndex = ref(2);
     const isStepCompleted = (index) => {
       return index <= currentProcessIndex.value;
+    };
+    const isStepCompletedEnd = (index) => {
+      return index === currentProcessIndex.value;
     };
     const goToOriginalLink = () => {
       window.open(law.value.link || "", "_blank");
@@ -146,6 +171,7 @@ export default {
       goToOriginalLink,
       goToKeywordPage,
       goToPartyContributionPage,
+      isStepCompletedEnd,
     };
   },
 };

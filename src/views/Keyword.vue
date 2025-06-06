@@ -1,13 +1,30 @@
 <template>
-  <div class="keyword-page">
+  <div class="keyword-page page">
+    <div class="title">
+      <span>ISSUE</span>
+      <span><img src="../assets/shape.png" /></span>
+      <span># keyword</span>
+    </div>
+
     <!-- 키워드 제목 블럭 -->
-    <div class="keyword-header">
-      <span class="keyword-box"># {{ keyword }}</span>
+    <div class="boxs">
+      <div class="box"></div>
+      <div class="box1"></div>
+      <div class="keyword-header">
+        <span class="keyword-box"># {{ keyword }}</span>
+      </div>
     </div>
 
     <!-- LAW 섹션 -->
     <div class="law-section">
-      <div class="section-header" @click="goToLawTab">LAW &gt;</div>
+      <!-- <div class="section-header">LAW &gt;</div> -->
+      <div class="sub-title" @click="goToLawTab">
+        <div class="img">
+          <img src="../assets/ic-law.png" />
+        </div>
+        <span>LAW</span>
+        <span><img src="../assets/shape2.png" /></span>
+      </div>
       <ul class="law-list">
         <li
           v-for="(law, index) in lawList"
@@ -21,13 +38,18 @@
 
     <!-- NEWS 섹션 -->
     <div class="news-section">
-      <div class="section-header" @click="goToNewsList">NEWS &gt;</div>
-      <div class="news-list">
+      <div class="section-header" @click="goToNewsList">
+        <div class="news-img">
+          <!-- <img src="../assets/newslist.png" /> -->
+          <img src="../assets/newslist.png" />
+        </div>
+        <span>NEWS</span>
+        <span><img src="../assets/shape2.png" /></span>
         <div
           v-for="(news, index) in newsList"
           :key="index"
           class="news-item"
-          @click="goToNewsDetail(news.id)"
+          @click="goToNewsDeetail(news.id)"
         >
           <img :src="news.image" alt="뉴스 이미지" class="news-img" />
           <div class="news-info">

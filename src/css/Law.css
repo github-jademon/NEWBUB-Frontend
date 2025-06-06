@@ -1,5 +1,13 @@
 /* 📋 법안 테이블 스타일 */
 
+.sub-title {
+  font-weight: 700;
+}
+
+.sub-title .img {
+  width: 18px;
+}
+
 .col-title {
   display: flex;
   align-items: center;
@@ -19,12 +27,13 @@
 }
 
 .table-body .col-status div {
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  height: 32px;
-  width: 80px;
+  height: 28px;
+  width: 74px;
 }
 
 /* 더보기 버튼 */
