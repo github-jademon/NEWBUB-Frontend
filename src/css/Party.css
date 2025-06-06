@@ -6,6 +6,9 @@
 .party-page .sub-title {
   margin: 30px 0 10px;
 }
+.party-page .sub-title {
+  gap: 10px;
+}
 
 .party-page .sub-title .img {
   height: 10px;

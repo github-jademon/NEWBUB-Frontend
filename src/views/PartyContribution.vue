@@ -104,14 +104,14 @@ export default {
       "# 청년",
     ]);
     const barHeights = ref([
-      80, 60, 90, 50, 70, 40, 80, 60, 90, 50, 70, 40, 80, 60, 90, 50, 70, 40,
-      80, 60, 90, 50, 70, 40,
+      80, 60, 99, 50, 70, 40, 80, 60, 99, 50, 70, 40, 80, 60, 98, 50, 70, 40,
+      80, 60, 99, 50, 70, 40,
     ]); // 예시 높이 (%)
 
     const hoverIndex = ref(null);
     console.log(hoverIndex.value);
 
-    // Hover 시 바 높이 보여주기
+    // Hover 바 높이 보여주기
     const showBarHeight = (index) => {
       console.log(index);
       hoverIndex.value = index;

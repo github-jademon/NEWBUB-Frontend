@@ -126,13 +126,13 @@ const exampleData = {
     { id: 1, name: "법안1" },
     { id: 2, name: "법안2" },
   ],
-  // 데이터 부족족
+  // 데이터 부족
   reporter: ["김도윤 기자", "우왕 기자"],
   image: "https://placehold.co/600x400",
   text: `매월 마지막 주 수요일 미림극장서 무료 상영\n인천투데이=인투아이(INTO-AI)·김도윤 기자｜인천 동구(구청장 김찬진)가 치매 환자와 가족 등 지역 주민을 대상으로 ‘가치함께 시네마’를 지난 4월 30일부터 6월 25일까지 매월 마지막 주 수요일에 운영하고 있다고 밝혔다.`,
   category: ["복지", "정치"],
   link: "",
-  keywords: ["치매", "노인복지", "문화생활", "영화", "극장"],
+  keywords: ["# 치매", "# 노인복지", "# 문화생활", "# 영화", "# 극장"],
 };
 
 const exampleData1 = [
@@ -245,7 +245,7 @@ export default {
       return lawList.value;
     });
     const goToOriginalLink = () => {
-      window.open(this.news.link || "", "_blank");
+      window.open(news.value.link || "", "_blank");
     };
     const goToKeywordPage = (keyword) => {
       window.location.href = `/keyword/${keyword}`;
