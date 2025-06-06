@@ -1,8 +1,21 @@
 <template>
   <div class="party-page page">
     <!-- 제목 -->
-    <div class="title">Political party > PARTY TOP 5</div>
+    <div class="title">
+      <span>POLITICAL PARTY</span>
+      <div class="img">
+        <img src="../assets/arrow.png" />
+      </div>
+      <span>PARTY TOP 5</span>
+    </div>
     <!-- <div class="title">📊 키워드 별 관여도 높은 정당 Top 5</div> -->
+
+    <div class="sub-title" @click="goToPartyDetail" style="cursor: pointer">
+      <div class="img">
+        <img src="../assets/party1.png" />
+      </div>
+      <span>키워드 별 관여도 높은 정당 Top 5</span>
+    </div>
 
     <!-- 키워드 Top 5 그래프 -->
     <div class="keyword-top5">
@@ -17,17 +30,18 @@
             class="bar"
             :style="{
               width: party.percentage + '%',
-              backgroundColor: getPartyColor(party.name),
+              backgroundColor: party.color,
+              cursor: 'pointer',
             }"
+            @click="goToPartyContribution(party.name)"
           >
             {{ party.name }}
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="load-more" v-if="hasMore == true">
-      <button @click="loadMore">+ 더보기</button>
+      <div class="load-more" v-if="hasMore == true">
+        <span @click="loadMore">더보기</span>
+      </div>
     </div>
   </div>
 </template>
@@ -124,6 +138,46 @@ const exampleData = [
       { name: "진보당", percentage: 20 },
       { name: "더불어민주당", percentage: 15 },
       { name: "국민의힘", percentage: 10 },
+    ],
+  },
+  {
+    keyword: "부동산",
+    parties: [
+      { name: "국민의힘", percentage: 40 },
+      { name: "더불어민주당", percentage: 35 },
+      { name: "개혁신당", percentage: 15 },
+      { name: "진보당", percentage: 5 },
+      { name: "기본소득당", percentage: 5 },
+    ],
+  },
+  {
+    keyword: "부동산",
+    parties: [
+      { name: "국민의힘", percentage: 40 },
+      { name: "더불어민주당", percentage: 35 },
+      { name: "개혁신당", percentage: 15 },
+      { name: "진보당", percentage: 5 },
+      { name: "기본소득당", percentage: 5 },
+    ],
+  },
+  {
+    keyword: "부동산",
+    parties: [
+      { name: "국민의힘", percentage: 40 },
+      { name: "더불어민주당", percentage: 35 },
+      { name: "개혁신당", percentage: 15 },
+      { name: "진보당", percentage: 5 },
+      { name: "기본소득당", percentage: 5 },
+    ],
+  },
+  {
+    keyword: "부동산",
+    parties: [
+      { name: "국민의힘", percentage: 40 },
+      { name: "더불어민주당", percentage: 35 },
+      { name: "개혁신당", percentage: 15 },
+      { name: "진보당", percentage: 5 },
+      { name: "기본소득당", percentage: 5 },
     ],
   },
   {

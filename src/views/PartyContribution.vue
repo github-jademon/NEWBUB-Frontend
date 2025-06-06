@@ -1,11 +1,25 @@
 <template>
   <div class="party-contribution page">
-    <div class="title">Political party > PARTY CONTRIBUTION</div>
-    <h1>정당 디테일 기여도 페이지</h1>
-    <div class="party-logos">
-      <div class="party-logo">
-        <img :src="partyLogos[partyName]" :alt="partyName" />
-        <p>{{ partyName }}</p>
+    <div class="title">
+      <span>POLITICAL PARTY</span>
+      <div class="img">
+        <img src="../assets/arrow.png" />
+      </div>
+      <span>PARTY CONTRIBUTION</span>
+    </div>
+
+    <div class="sub-title" @click="goToPartyDetail" style="cursor: pointer">
+      <div class="img">
+        <img src="../assets/party2.png" />
+      </div>
+      <span>정당별 키워드 기여도</span>
+      <div class="img arrow">
+        <img src="../assets/arrow.png" />
+      </div>
+      <div class="party-logos">
+        <div class="party-logo">
+          <img :src="partyLogos[partyName]" :alt="partyName" />
+        </div>
       </div>
     </div>
 

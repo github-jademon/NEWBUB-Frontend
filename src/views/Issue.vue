@@ -29,30 +29,35 @@
       </div>
     </div>
 
-    <!-- 카테고리 선택 영역 (가로 스크롤 가능) -->
-    <div class="category-scroll">
-      <div
-        class="category"
-        v-for="category in categories"
-        :key="category"
-        :class="{ active: selectedCategory === category }"
-        @click="selectCategory(category)"
-      >
-        {{ category }}
+    <div class="table">
+      <!-- 카테고리 선택 영역 (가로 스크롤 가능) -->
+      <div class="category-scroll">
+        <div
+          class="category"
+          v-for="category in categories"
+          :key="category"
+          :class="{ active: selectedCategory === category }"
+          @click="selectCategory(category)"
+        >
+          {{ category }}
+        </div>
+      </div>
+
+      <!-- 필터링된 키워드 리스트 -->
+      <div class="table-body">
+        <div
+          v-for="(keyword, index) in filteredKeywords"
+          :key="keyword.name"
+          @click="goToKeyword(keyword.name)"
+          class="table-row"
+        >
+          <div class="table-item col-number">
+            <div>{{ index + 1 }}</div>
+          </div>
+          <div class="table-item col-keyword">#{{ keyword.name }}</div>
+        </div>
       </div>
     </div>
-
-    <!-- 필터링된 키워드 리스트 -->
-    <ul class="keyword-list">
-      <li
-        v-for="(keyword, index) in filteredKeywords"
-        :key="keyword.name"
-        @click="goToKeyword(keyword.name)"
-        class="keyword-item"
-      >
-        {{ index + 1 }}. #{{ keyword.name }}
-      </li>
-    </ul>
 
     <!-- 더보기 버튼 -->
     <div class="load-more" v-if="hasMore == true">
@@ -98,7 +103,7 @@ export default {
       "경제",
       "지역",
       "국제",
-      "문화.라이프",
+      "문화·라이프",
       "스포츠",
       "과학",
       "건강",

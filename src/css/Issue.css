@@ -1,17 +1,10 @@
-/* 키워드 리스트 스타일 */
-.keyword-list {
-  list-style: none;
-  padding: 0;
-}
-
-/* 각 키워드 항목 스타일 */
-.keyword-item {
-  font-size: 18px;
-  margin: 6px 0;
+.col-keyword {
+  width: 100%;
+  padding: 0 20px;
+  /* font-size: 18px; */
   cursor: pointer;
 }
 
-/* 키워드 hover 시 스타일 */
-.keyword-item:hover {
+.col-keyword:hover {
   text-decoration: underline;
 }

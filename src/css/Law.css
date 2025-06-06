@@ -1,13 +1,17 @@
 /* 📋 법안 테이블 스타일 */
 
-.table .col-title {
+.col-title {
   display: flex;
   align-items: center;
-  padding: 0 10px;
   width: calc(100% - 64px - 200px);
+  cursor: pointer;
 }
 
-.table .col-status {
+.col-title:hover {
+  text-decoration: underline;
+}
+
+.col-status {
   display: flex;
   width: 200px;
   justify-content: center;
@@ -20,7 +24,7 @@
   align-items: center;
   border-radius: 6px;
   height: 32px;
-  width: 90px;
+  width: 80px;
 }
 
 /* 더보기 버튼 */

@@ -31,8 +31,10 @@
 
     <!-- 📋 법안 리스트 -->
     <div class="sub-title">
-      <img src="../assets/ic-law.png" />
-      <span></span>법안 처리 현황
+      <div class="img">
+        <img src="../assets/ic-law.png" />
+      </div>
+      <span>법안 처리 현황</span>
     </div>
 
     <div class="table">

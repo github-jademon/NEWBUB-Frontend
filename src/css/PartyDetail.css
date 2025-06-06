@@ -1,45 +1,26 @@
-.page-title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.party-page .sub-title {
+  font-size: 18px;
+  height: 50px;
+  margin: 40px 0 15px;
 }
 
-.keyword-top5 {
-  margin-bottom: 30px;
-}
-.keyword-row {
-  margin-bottom: 16px;
-}
-.bars {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-}
-.bar {
-  color: white;
-  padding: 4px;
-  font-size: 14px;
-  text-align: center;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-.keyword-name {
-  cursor: pointer;
-  color: #4a90e2;
-}
-.keyword-name:hover {
-  text-decoration: underline;
+.party-page .sub-title .img {
+  height: 16px;
 }
 
 .load-more {
   text-align: center;
-  background-color: #f0f0f0;
-  color: #333;
-  padding: 10px;
+  background-color: #f3f6fb;
+  padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 12px;
+  color: #045dcf;
   transition: background-color 0.2s;
+}
+
+.load-more span {
 }
 
 .load-more:hover {

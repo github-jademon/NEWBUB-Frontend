@@ -2,14 +2,20 @@
   <div class="party-page page">
     <h1 class="title">POLITICAL PARTY</h1>
 
-    <div class="section-title" @click="goToPartyDetail" style="cursor: pointer">
-      <span>📊 키워드 별 관여도 높은 정당 Top 5 ></span>
+    <div class="sub-title" @click="goToPartyDetail" style="cursor: pointer">
+      <div class="img">
+        <img src="../assets/party1.png" />
+      </div>
+      <span>키워드 별 관여도 높은 정당 Top 5</span>
+      <div class="img">
+        <img src="../assets/arrow.png" />
+      </div>
     </div>
 
     <div class="keyword-top5">
       <div v-for="(item, index) in top5Data" :key="index" class="keyword-row">
         <strong class="keyword-name" @click="goToKeyword(item.keyword)">
-          # {{ item.keyword }}
+          <span>#</span> {{ item.keyword }}
         </strong>
         <div class="bars">
           <div
@@ -19,7 +25,9 @@
             :style="{
               width: party.percentage + '%',
               backgroundColor: party.color,
+              cursor: 'pointer',
             }"
+            @click="goToPartyContribution(party.name)"
           >
             {{ party.name }}
           </div>
@@ -27,12 +35,11 @@
       </div>
     </div>
 
-    <div
-      class="section-title"
-      @click="goToPartyContribution('전체')"
-      style="cursor: pointer"
-    >
-      <span>🚩 정당별 키워드 관여도 </span>
+    <div class="sub-title">
+      <div class="img">
+        <img src="../assets/party2.png" />
+      </div>
+      <span>정당별 키워드 관여도</span>
     </div>
 
     <div class="party-logos">
@@ -43,7 +50,10 @@
         @click="goToPartyContribution(party.name)"
         style="cursor: pointer"
       >
-        <img :src="party.logo" :alt="party.name" />
+        <!-- <img :src="party.logo" :alt="party.name" /> -->
+        <div class="img">
+          <img src="https://placehold.co/600x400" :alt="party.name" />
+        </div>
         <div class="party-name">{{ party.name }}</div>
       </div>
     </div>

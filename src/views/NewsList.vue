@@ -29,29 +29,36 @@
       </div>
     </div>
 
-    <!-- 📂 카테고리 선택 (가로 스크롤, 마우스로 드래그 가능) -->
-    <div class="category-scroll" ref="scrollContainer">
-      <div
-        class="category"
-        v-for="category in categories"
-        :key="category"
-        :class="{ active: category === selectedCategory }"
-        @click="selectCategory(category)"
-      >
-        {{ category }}
+    <div class="table">
+      <!-- 카테고리 선택 영역 (가로 스크롤 가능) -->
+      <div class="category-scroll">
+        <div
+          class="category"
+          v-for="category in categories"
+          :key="category"
+          :class="{ active: selectedCategory === category }"
+          @click="selectCategory(category)"
+        >
+          {{ category }}
+        </div>
       </div>
-    </div>
 
-    <!-- 📰 뉴스 리스트 -->
-    <div class="news-list">
-      <div
-        class="news-item"
-        v-for="(news, index) in filteredNews"
-        :key="index"
-        @click="goToNewsDetail(news.id)"
-      >
-        <img :src="news.img_url" alt="뉴스 이미지" class="news-image" />
-        <div class="news-title">{{ news.title }}</div>
+      <!-- 필터링된 키워드 리스트 -->
+      <div class="news-list table-body">
+        <div
+          v-for="(news, index) in filteredNews"
+          :key="index"
+          @click="goToNewsDetail(news.id)"
+          class="table-row"
+        >
+          <div class="news-image">
+            <img :src="news.img_url" alt="뉴스 이미지" />
+          </div>
+          <div class="news-item">
+            <div class="news-title">{{ news.title }}</div>
+            <div class="news-date">{{ news.date }}</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -170,7 +177,7 @@ export default {
       "경제",
       "지역",
       "국제",
-      "문화.라이프",
+      "문화·라이프",
       "스포츠",
       "과학",
       "건강",
