@@ -57,6 +57,7 @@
           :key="index"
           @click="goToNewsDetail(news.id)"
           class="table-row"
+          style="cursor: pointer"
         >
           <div class="news-image">
             <img :src="news.img_url" alt="뉴스 이미지" />

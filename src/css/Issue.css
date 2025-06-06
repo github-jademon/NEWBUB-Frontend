@@ -25,7 +25,15 @@
 
 .issue-page .sub-title {
   font-size: 1;
-  gap: 2px;
+  gap: 7px;
+}
+
+.table .table-item {
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  font-color: #353a3f;
+  align-items: center;
 }
 
 /* .sub-title span {

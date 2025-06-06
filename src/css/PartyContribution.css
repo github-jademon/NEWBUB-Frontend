@@ -1,5 +1,5 @@
 .party-contribution {
-  padding: 5px;
+  /* padding: 5px; */
 }
 
 .party-contribution .sub-title {
@@ -7,6 +7,11 @@
   height: 50px;
   margin: 40px 0 15px;
   overflow: visible;
+  gap: 8px;
+}
+
+.bar-item:first-child {
+  margin-left: 10px;
 }
 
 .party-contribution .sub-title .img {
@@ -39,9 +44,49 @@
 /* 그래프 스타일 */
 .bar-chart-container {
   display: flex;
-  margin-top: 40px;
+  flex-direction: column;
+  padding: 30px 25px;
+  align-items: flex-end;
+  margin-top: 30px;
+  height: 400px;
+  position: relative;
+  padding-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.legend {
+  /* position: absolute; */
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend span {
+  width: 20px;
+  height: 5px;
+  background-color: #297ff1;
+}
+
+.bar-chart-main {
+  display: flex;
+  padding-top: 50px;
+  padding: 50px 10px;
   align-items: flex-end;
   height: 300px;
+  width: 100%;
+  position: relative;
+  margin-right: -10px;
+  padding-bottom: 20px;
+}
+
+.bars {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }
 
 .y-axis {
@@ -49,7 +94,8 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  margin-right: 10px;
+  width: 50px;
+  padding-right: 10px;
   font-size: 14px;
   color: #555;
 }
@@ -68,6 +114,7 @@
   height: 100%;
   border-left: 1px solid #ccc;
   padding-left: 10px;
+  padding: 20px 0 0 0;
 }
 
 .bar-item {
@@ -77,13 +124,17 @@
   justify-content: flex-end;
   height: 100%;
   width: 50px;
+
+  position: relative;
+  margin-bottom: 10px;
 }
 
 .bar {
-  width: 100%;
-  background-color: #4caf50;
-  transition: height 0.5s;
+  border-radius: 4px 4px 0 0;
+  width: 10px;
   overflow: hidden;
+  background-color: #5097f2;
+  transition: height 0.3s ease;
 }
 
 .keyword {
@@ -91,4 +142,23 @@
   font-size: 13px;
   text-align: center;
   word-break: keep-all;
+  min-width: 100px;
+  width: 100%;
+}
+
+.bar-height-tooltip {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.keyword {
+  text-align: center;
+  margin-top: 10px;
 }

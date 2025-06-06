@@ -2,15 +2,13 @@
   <div class="party-page page">
     <!-- 제목 -->
     <div class="title">
-      <span>POLITICAL PARTY</span>
-      <div class="img">
-        <img src="../assets/arrow.png" />
-      </div>
+      <span @click="goToParty" style="cursor: pointer">POLITICAL PARTY</span>
+      <span class="img"><img src="../assets/shape.png" /></span>
       <span>PARTY TOP 5</span>
     </div>
     <!-- <div class="title">📊 키워드 별 관여도 높은 정당 Top 5</div> -->
 
-    <div class="sub-title" @click="goToPartyDetail" style="cursor: pointer">
+    <div class="sub-title">
       <div class="img">
         <img src="../assets/party1.png" />
       </div>
@@ -30,7 +28,7 @@
             class="bar"
             :style="{
               width: party.percentage + '%',
-              backgroundColor: party.color,
+              backgroundColor: getPartyColor(party.name),
               cursor: 'pointer',
             }"
             @click="goToPartyContribution(party.name)"
@@ -203,21 +201,25 @@ export default {
     console.log(top5Data.value);
     const getPartyColor = (name) => {
       const colorMap = {
-        더불어민주당: "#A7C7E7",
-        국민의힘: "#F8A5A5",
-        개혁신당: "#FFD59E",
-        진보당: "#C8E6C9",
-        기본소득당: "#E3D0FF",
-        조국혁신당: "#FFFACD",
-        사회민주당: "#B2EBF2",
-        국민의미래: "#E1BEE7",
-        새미래민주당: "#D7CCC8",
+        더불어민주당: "#7AB3E1",
+        국민의힘: "#FF9090",
+        개혁신당: "#F5AC58",
+        진보당: "#FCB4B4",
+        기본소득당: "#93DBCF",
+        조국혁신당: "#AFD4FC",
+        사회민주당: "#F4BC7A",
       };
       return colorMap[name] || "#ccc";
     };
     const goToKeyword = (name) => {
       console.log(name);
       window.location.href = `/keyword/${name}`;
+    };
+    const goToPartyContribution = (party) => {
+      window.location.href = `/party-contribution/${party}`;
+    };
+    const goToParty = () => {
+      window.location.href = "/party";
     };
     const loadMore = () => {};
     return {
@@ -227,6 +229,8 @@ export default {
       visibleItems,
       getPartyColor,
       goToKeyword,
+      goToParty,
+      goToPartyContribution,
     };
   },
 };

@@ -1,5 +1,6 @@
 .page.party-page {
-  height: calc(100% + 50px);
+  /* height: calc(100% + 50px); */
+  margin: 35px auto 50px auto;
 }
 
 .party-page .sub-title {
@@ -8,6 +9,17 @@
 
 .party-page .sub-title .img {
   height: 10px;
+}
+
+/* 키워드별 아이콘 */
+.sub-title img {
+  width: 15px;
+  height: 15px;
+}
+
+.title-img img {
+  width: 6px;
+  height: 12px;
 }
 
 .party-logos {

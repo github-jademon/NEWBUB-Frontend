@@ -7,7 +7,7 @@
         <img src="../assets/party1.png" />
       </div>
       <span>키워드 별 관여도 높은 정당 Top 5</span>
-      <div class="img">
+      <div class="img title-img">
         <img src="../assets/arrow.png" />
       </div>
     </div>
@@ -50,7 +50,6 @@
         @click="goToPartyContribution(party.name)"
         style="cursor: pointer"
       >
-        <!-- <img :src="party.logo" :alt="party.name" /> -->
         <div class="img">
           <img src="https://placehold.co/600x400" :alt="party.name" />
         </div>
@@ -100,7 +99,7 @@ const exampleData1 = [
       { name: "국민의힘", percentage: 30, color: "#FF9090" },
       { name: "더불어민주당", percentage: 25, color: "#7AB3E1" },
       { name: "개혁신당", percentage: 20, color: "#F5AC58" },
-      { name: "국민의미래", percentage: 15, color: "#FAC2C2" },
+      { name: "무소속", percentage: 15, color: "#CACFD3" },
       { name: "기본소득당", percentage: 10, color: "#93DBCF" },
     ],
   },
@@ -111,7 +110,7 @@ const exampleData1 = [
       { name: "더불어민주당", percentage: 28, color: "#7AB3E1" },
       { name: "조국혁신당", percentage: 20, color: "#AFD4FC" },
       { name: "국민의힘", percentage: 10, color: "#FF9090" },
-      { name: "새미래민주당", percentage: 10, color: "#BEE4E5" },
+      { name: "무소속", percentage: 10, color: "#CACFD3" },
     ],
   },
   {
@@ -133,9 +132,7 @@ const exampleData2 = [
   { name: "진보당", logo: "/logos/progressive.png" },
   { name: "기본소득당", logo: "/logos/basic.png" },
   { name: "사회민주당", logo: "/logos/social.png" },
-  { name: "국민의미래", logo: "/logos/future.png" },
-  { name: "더불어민주연합", logo: "/logos/united.png" },
-  { name: "새미래민주당", logo: "/logos/newfuture.png" },
+  { name: "무소속", logo: "/logos/future.png" },
 ];
 
 export default {
