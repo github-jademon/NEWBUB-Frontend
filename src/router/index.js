@@ -20,18 +20,22 @@ const routes = [
   { path: "/keyword/:name", name: "Keyword", component: Keyword },
 
   { path: "/law", name: "Law", component: Law },
-  { path: "/law-detail", name: "LawDetail", component: LawDetail },
+  { path: "/law-detail/:id(.*)*", name: "LawDetail", component: LawDetail },
 
   { path: "/party", name: "Party", component: Party },
-  { path: "/party-detail", name: "PartyDetail", component: PartyDetail },
   {
-    path: "/party-contribution",
+    path: "/party-detail",
+    name: "PartyDetail",
+    component: PartyDetail,
+  },
+  {
+    path: "/party-contribution/:name(.*)*",
     name: "PartyContribution",
     component: PartyContribution,
   },
 
   { path: "/news", name: "NewsList", component: NewsList },
-  { path: "/news-detail", name: "NewsDetail", component: NewsDetail },
+  { path: "/news-detail/:id(.*)*", name: "NewsDetail", component: NewsDetail },
 ];
 
 const router = createRouter({

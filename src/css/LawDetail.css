@@ -1,0 +1,140 @@
+.law-detail {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.law-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.process-status {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.process-step {
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: white;
+  background-color: #ccc;
+  user-select: none;
+}
+
+.process-step.completed {
+  background-color: #007bff;
+}
+
+.content-wrapper {
+  display: flex;
+  gap: 30px;
+}
+
+.law-info-block {
+  flex: 2;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.law-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+.law-info-table th,
+.law-info-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.law-info-table th {
+  background-color: #f0f0f0;
+  width: 150px;
+}
+
+.proposal-content h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.proposal-content h3 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+}
+
+.proposal-content p {
+  font-size: 15px;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.more-link {
+  margin-top: 20px;
+  font-weight: 700;
+  color: #007bff;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+}
+
+.side-blocks {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.related-keywords h3 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.keyword {
+  background-color: #e1ecf4;
+  color: #39739d;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.party-contribution-block h3 {
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.party-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.party-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.party-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+}

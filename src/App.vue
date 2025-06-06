@@ -30,3 +30,4 @@ export default {
 </script>
 
 <style src="./css/App.css" scoped></style>
+<style src="./css/style.css"></style>

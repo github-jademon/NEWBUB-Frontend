@@ -1,10 +1,10 @@
 <template>
-  <div class="law-page">
-    <div class="law-title">LAW</div>
+  <div class="law-page page">
+    <div class="title">LAW</div>
 
-    <div class="law-content">
-      <div class="law-item">
-        <div class="law-text">
+    <div class="content">
+      <div class="item">
+        <div class="text">
           <div>찾고 싶은 법안을</div>
           <div>쉽고 빠르게 검색해보세요</div>
         </div>
@@ -24,38 +24,38 @@
         </div>
       </div>
 
-      <div class="law-img">
+      <div class="img">
         <img src="../assets/lawImg.png" />
       </div>
     </div>
 
     <!-- 📋 법안 리스트 -->
-    <div class="law-sub-title">
+    <div class="sub-title">
       <img src="../assets/ic-law.png" />
       <span></span>법안 처리 현황
     </div>
 
-    <div class="law-table">
-      <div class="law-table-head">
-        <div class="law-table-row">
-          <div class="col-number law-table-item">번호</div>
-          <div class="col-title law-table-item">법안명</div>
-          <div class="col-status law-table-item">처리 현황</div>
+    <div class="table">
+      <div class="table-head">
+        <div class="table-row">
+          <div class="col-number table-item">번호</div>
+          <div class="col-title table-item">법안명</div>
+          <div class="col-status table-item">처리 현황</div>
         </div>
       </div>
-      <div class="law-table-body">
+      <div class="table-body">
         <div
-          class="law-table-row"
+          class="table-row"
           v-for="(law, index) in filteredLaws"
           :key="index"
         >
-          <div class="col-number law-table-item">
+          <div class="col-number table-item">
             <div>{{ index + 1 }}</div>
           </div>
-          <div class="col-title law-table-item" @click="goToLawDetail(law.id)">
+          <div class="col-title table-item" @click="goToLawDetail(law.id)">
             {{ law.name }}
           </div>
-          <div class="col-status law-table-item">
+          <div class="col-status table-item">
             <div
               :style="{
                 backgroundColor:
@@ -82,85 +82,11 @@
   </div>
 </template>
 
-<!-- <script>
-export default {
-  name: "LawPage",
-  data() {
-    return {
-      searchQuery: this.$route.query.q || "",
-      page: 1,
-      hasMore: true,
-      laws: [
-        // 예시 데이터 10개
-        // ...Array.from({ length: 10 }, (_, i) => ({
-        //   name: `법안 ${i + 1} - 예시법안 제목`,
-        //   processing_status: [(i % 5) + 1],
-        //   id: i,
-        // })),
-      ],
-    };
-  },
-  created() {
-    // 컴포넌트가 마운트될 때 데이터를 불러옵니다.
-    this.fetchLawsData();
-  },
-  computed: {
-    visibleLaws() {
-      return this.laws;
-    },
-  },
-  methods: {
-    fetchLawsData() {
-      const data = async () => {
-        try {
-          const response = await fetch(
-            `/api/laws?page=${this.page}&q=${this.searchQuery}`,
-            {
-              method: "GET",
-              credentials: "include",
-            }
-          );
-          const result = await response.json();
-
-          return result;
-        } catch (error) {
-          console.log("error:", error);
-          this.laws = [...this.laws];
-          this.hasMore = false;
-        }
-      };
-
-      data().then((response) => {
-        console.log(response);
-
-        this.laws = [...this.laws, ...response.data];
-        console.log(this.laws);
-
-        this.hasMore = response.has_more;
-
-        if (response.hasMore == true) {
-          this.page += 1;
-        }
-      });
-    },
-    goToSearch() {
-      if (this.searchQuery.trim()) {
-        this.$router.push({
-          path: "/law",
-          query: { q: this.searchQuery },
-        });
-        this.laws = [];
-        this.fetchLawsData();
-      }
-    },
-  },
-};
-</script> -->
-
 <script>
 import { ref, computed, onMounted } from "vue";
 import { goToSearchFromCommon } from "../functions/common";
 import { fetchLawData } from "../functions/fetch";
+import { useRoute } from "vue-router";
 
 const exampleData = {
   has_more: false,
@@ -195,9 +121,10 @@ const exampleData = {
 export default {
   name: "LawPage",
   setup() {
-    const searchQuery = ref(""); // 사용자가 입력한 검색어
+    const route = useRoute();
+    const searchQuery = ref(route.query.q || ""); // 사용자가 입력한 검색어
     const page = ref(1); // 현재 페이지
-    const hasMore = ref(true); // 더보기 여부
+    const hasMore = ref(false); // 더보기 여부
     const lawList = ref([]); // 뉴스 리스트
     const colorList = [
       {
@@ -275,7 +202,7 @@ export default {
     };
 
     const goToLawDetail = (id) => {
-      window.location.href = `/law-detail?id=${id}`;
+      window.location.href = `/law-detail/${id}`;
     };
 
     // 최초 마운트 시 데이터 불러오기

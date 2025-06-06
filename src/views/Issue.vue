@@ -1,17 +1,32 @@
 <template>
-  <div class="issue-page">
-    <h1>ISSUE</h1>
+  <div class="issue-page page">
+    <div class="title">ISSUE</div>
 
-    <!-- 🔍 검색창 영역 -->
-    <div class="search-box">
-      <input
-        v-model="searchQuery"
-        type="text"
-        @keyup.enter="goToSearch"
-        placeholder="키워드를 입력하세요"
-      />
-      <!-- 검색 버튼 클릭 시 goToSearch 메서드 호출 -->
-      <button @click="goToSearch">검색</button>
+    <div class="content">
+      <div class="item">
+        <div class="text">
+          <div>관심있는 키워드를</div>
+          <div>쉽고 빠르게 찾아보세요</div>
+        </div>
+        <!-- 🔍 검색창 -->
+        <div class="search-box">
+          <label>
+            <input
+              v-model="searchQuery"
+              @keyup.enter="goToSearch"
+              type="text"
+              placeholder="키워드를 입력하세요"
+            />
+            <button @click="goToSearch">
+              <img src="../assets/ic-search.png" />
+            </button>
+          </label>
+        </div>
+      </div>
+
+      <div class="img">
+        <img src="../assets/issueImg.png" />
+      </div>
     </div>
 
     <!-- 카테고리 선택 영역 (가로 스크롤 가능) -->
@@ -20,7 +35,7 @@
         class="category"
         v-for="category in categories"
         :key="category"
-        :class="{ selected: selectedCategory === category }"
+        :class="{ active: selectedCategory === category }"
         @click="selectCategory(category)"
       >
         {{ category }}
@@ -54,15 +69,27 @@ import {
   selectCategoryFromCommon,
 } from "../functions/common";
 import { fetchIssueData } from "../functions/fetch";
+import { useRoute } from "vue-router";
+
+const exampleData = {
+  has_more: false,
+  data: [
+    { name: "키워드2", category: "정치" },
+    { name: "키워드4", category: "정치" },
+    { name: "키워드6", category: "정치" },
+    { name: "키워드8", category: "정치" },
+    { name: "키워드10", category: "정치" },
+    { name: "키워드12", category: "정치" },
+    { name: "키워드14", category: "정치" },
+    { name: "키워드16", category: "정치" },
+    { name: "키워드18", category: "정치" },
+  ],
+};
 
 export default {
   name: "IssuePage",
   setup() {
-    const searchQuery = ref(""); // 사용자가 입력한 검색어
-    const selectedCategory = ref("전체"); // 현재 선택된 카테고리
-    const page = ref(1); // 현재 페이지
-    const hasMore = ref(true); // 더보기 여부
-    const keywordList = ref([]); // 뉴스 리스트
+    const route = useRoute();
 
     const categories = ref([
       "전체",
@@ -78,6 +105,14 @@ export default {
       "산업",
     ]);
 
+    const searchQuery = ref(route.query.q || ""); // 사용자가 입력한 검색어
+    const selectedCategory = ref(
+      route.query.category in categories.value ? route.query.category : "전체"
+    ); // 현재 선택된 카테고리
+    const page = ref(1); // 현재 페이지
+    const hasMore = ref(false); // 더보기 여부
+    const keywordList = ref([]); // 뉴스 리스트
+
     // filteredNews는 searchQuery와 selectedCategory에 따라 필터링된 뉴스
     const filteredKeywords = computed(() => {
       let filtered = keywordList.value;
@@ -86,6 +121,8 @@ export default {
 
       return filtered;
     });
+
+    console.log(selectedCategory.value);
 
     // 뉴스 더보기 함수
     const loadMore = () => {
@@ -103,6 +140,10 @@ export default {
           hasMore.value = more; // 더 이상 데이터가 없으면 false
         }
       );
+      if (keywordList.value.length == 0) {
+        keywordList.value = exampleData.data;
+        hasMore.value = exampleData.has_more;
+      }
     };
 
     // 검색어로 뉴스 필터링

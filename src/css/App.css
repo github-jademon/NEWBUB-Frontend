@@ -74,7 +74,7 @@
 /* 오른쪽 페이지 내용 스타일 */
 .content {
   flex: 1;
-  padding: 30px;
+  padding: 0 30px;
   overflow-y: auto;
   text-align: left;
 }

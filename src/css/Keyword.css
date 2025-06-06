@@ -1,0 +1,62 @@
+.keyword-page {
+  padding: 20px;
+}
+
+.keyword-header {
+  margin-bottom: 20px;
+}
+
+.keyword-box {
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.section-header {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 20px 0 10px;
+  cursor: pointer;
+}
+
+.law-list li {
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.news-item {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.news-img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.news-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.news-title {
+  font-weight: bold;
+}
+
+.news-date {
+  font-size: 12px;
+  color: gray;
+}
