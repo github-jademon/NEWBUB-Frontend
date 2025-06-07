@@ -29,7 +29,7 @@ const routes = [
     component: PartyDetail,
   },
   {
-    path: "/party-contribution/:name(.*)*",
+    path: "/party-contribution/:id(.*)*",
     name: "PartyContribution",
     component: PartyContribution,
   },

@@ -1,5 +1,4 @@
-// fetchNewsData.js (혹은 common.js)
-export const fetchNewsData = async (
+export const fetchNewsListData = async (
   page,
   searchQuery,
   selectedCategory,
@@ -19,22 +18,20 @@ export const fetchNewsData = async (
     const result = await response.json();
 
     // 결과를 반환할 때 상태를 업데이트
-    setNewsList(result.data);
-    setHasMore(result.has_more);
+    setNewsList(result.news);
+    if (setHasMore) setHasMore(result.has_more);
 
     console.log(result);
 
     if (result.has_more) {
-      setPage(page + 1);
-      page += 1;
+      if (setHasMore) setPage(page + 1);
     }
   } catch (error) {
     console.log("Error:", error);
-    setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
+    if (setHasMore) setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
   }
 };
 
-// fetchNewsData.js (혹은 common.js)
 export const fetchIssueData = async (
   page,
   searchQuery,
@@ -55,7 +52,7 @@ export const fetchIssueData = async (
     const result = await response.json();
 
     // 결과를 반환할 때 상태를 업데이트
-    setKeywordList(result.data);
+    setKeywordList(result.keywords);
     setHasMore(result.has_more);
 
     console.log(result);
@@ -69,7 +66,7 @@ export const fetchIssueData = async (
   }
 };
 
-export const fetchLawData = async (
+export const fetchLawListData = async (
   page,
   searchQuery,
   setPage,
@@ -88,16 +85,114 @@ export const fetchLawData = async (
     const result = await response.json();
 
     // 결과를 반환할 때 상태를 업데이트
-    setLawList(result.data);
-    setHasMore(result.has_more);
+    setLawList(result.laws);
+    if (setHasMore) setHasMore(result.has_more);
 
     console.log(result);
 
     if (result.has_more) {
-      setPage(page + 1);
+      if (setHasMore) setPage(page + 1);
     }
   } catch (error) {
     console.log("Error:", error);
-    setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
+    if (setHasMore) setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
+  }
+};
+
+export const fetchNewsData = async (id, setNews) => {
+  try {
+    const response = await fetch(`/api/news/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    // 결과를 반환할 때 상태를 업데이트
+    setNews(result);
+
+    console.log(result);
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
+
+export const fetchLawData = async (id, setLaw) => {
+  try {
+    const response = await fetch(`/api/laws/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    // 결과를 반환할 때 상태를 업데이트
+    setLaw(result);
+
+    console.log(result);
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
+
+export const fetchTop5Data = async (
+  page,
+  setParty,
+  setPage,
+  setHasMore,
+  limit = 30
+) => {
+  try {
+    const response = await fetch(`/api/party/party_detail?page=${page}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    // 결과를 반환할 때 상태를 업데이트
+    result.issues = result.issues.slice(0, limit);
+    setParty(result.issues);
+
+    if (setPage) setPage(page + 1);
+    if (setHasMore) setHasMore(result.has_more);
+
+    console.log(result);
+  } catch (error) {
+    console.log("Error:", error);
+    if (setHasMore) setHasMore(false);
+  }
+};
+
+export const fetchPartyContribution = async (id, setMaxCount, setParty) => {
+  try {
+    const response = await fetch(`/api/party/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    // 결과를 반환할 때 상태를 업데이트
+    setParty(result);
+    setMaxCount(result.max_count);
+
+    console.log(result);
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
+
+export const fetchPartyData = async (setParty) => {
+  try {
+    const response = await fetch(`/api/party`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    // 결과를 반환할 때 상태를 업데이트
+    setParty(result[1].parties);
+
+    console.log(result[1].parties);
+    console.log(result);
+  } catch (error) {
+    console.log("Error:", error);
   }
 };

@@ -1,27 +1,41 @@
 <template>
   <div class="party-contribution page">
     <div class="title">
-      <span>POLITICAL PARTY</span>
+      <span @click="goToParty" style="cursor: pointer">POLITICAL PARTY</span>
       <div class="img">
-        <img src="../assets/shape.png" />
+        <img src="@/assets/shape.png" />
       </div>
-      <span style="font-weight: 600">PARTY CONTRIBUTION</span>
+      <span
+        @click="goToPartyContribution(partyName)"
+        style="font-weight: 600; cursor: pointer"
+        >PARTY CONTRIBUTION</span
+      >
     </div>
 
-    <div class="sub-title" @click="goToPartyDetail" style="cursor: pointer">
+    <div class="sub-title">
       <div class="img">
-        <img src="../assets/party2.png" />
+        <img src="@/assets/party2.png" />
       </div>
-      <span>정당별 키워드 기여도</span>
+      <span @click="goToParty" style="cursor: pointer"
+        >정당별 키워드 기여도</span
+      >
       <div class="img arrow">
-        <img src="../assets/arrow.png" />
+        <img src="@/assets/arrow.png" />
       </div>
       <div class="party-logos">
-        <div class="party-logo">
-          <img :src="partyLogos[partyName]" :alt="partyName" />
+        <div
+          class="party-logo"
+          @click="goToPartyContribution(party.name)"
+          style="cursor: pointer"
+        >
+          <img :src="party.img" :alt="party.name" />
         </div>
       </div>
-      <span>{{ partyName }}</span>
+      <span
+        @click="goToPartyContribution(party.name)"
+        style="cursor: pointer"
+        >{{ party.name }}</span
+      >
     </div>
 
     <div class="bar-chart-container">
@@ -35,36 +49,49 @@
         </div>
         <div class="bars">
           <div
-            v-for="(keyword, index) in keywords"
+            v-for="(item, index) in party.contribution"
             :key="index"
             class="bar-item"
             @mouseover="showBarHeight(index)"
             @mouseleave="hideBarHeight"
           >
-            <div class="bar" :style="{ height: barHeights[index] + '%' }"></div>
-            <div class="keyword">{{ keyword }}</div>
+            <div
+              class="bar"
+              :style="{ height: getHeight(item.count) + '%' }"
+            ></div>
+            <div
+              class="keyword"
+              @click="goToKeywordPage(item.keyword)"
+              style="cursor: pointer"
+            >
+              # {{ item.keyword }}
+            </div>
             <!-- Hover 상태에서 높이를 보여주는 부분 -->
             <div v-if="hoverIndex === index" class="bar-height-tooltip">
-              {{ barHeights[index] }}%
+              <span>{{ item.count }}개</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="load-more" v-if="hasMore == true">
-      <button @click="loadMore">+ 더보기</button>
-    </div>
   </div>
 </template>
 <script>
 import { enableMouseScroll } from "@/functions/common";
+import { fetchPartyContribution } from "@/functions/fetch";
+import {
+  goToKeywordPage,
+  goToParty,
+  goToPartyContribution,
+} from "@/functions/goToLink";
 import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   name: "PartyContribution",
   setup() {
-    const partyName = ref("더불어민주당");
+    const route = useRoute();
+    const partyId = ref(route.params.id || 1);
     const partyLogos = ref({
       더불어민주당: "https://placehold.co/600x400",
       국민의힘: "https://placehold.co/600x400",
@@ -76,44 +103,45 @@ export default {
       민주연합당: "https://placehold.co/600x400",
       새미래당: "https://placehold.co/600x400",
     });
-    const yLabels = ref([100, 80, 60, 40, 20, 0]);
-    const keywords = ref([
-      "# 선거",
-      "# 탄핵",
-      "# 오염수",
-      "# 부동산",
-      "# 복지",
-      "# 청년",
-      "# 선거",
-      "# 탄핵",
-      "# 오염수",
-      "# 부동산",
-      "# 복지",
-      "# 청년",
-      "# 선거",
-      "# 탄핵",
-      "# 오염수",
-      "# 부동산",
-      "# 복지",
-      "# 청년",
-      "# 선거",
-      "# 탄핵",
-      "# 오염수",
-      "# 부동산",
-      "# 복지",
-      "# 청년",
-    ]);
-    const barHeights = ref([
-      80, 60, 99, 50, 70, 40, 80, 60, 99, 50, 70, 40, 80, 60, 98, 50, 70, 40,
-      80, 60, 99, 50, 70, 40,
-    ]); // 예시 높이 (%)
+    const yLabels = ref([]);
+    // const keywords = ref([
+    //   "선거",
+    //   "탄핵",
+    //   "오염수",
+    //   "부동산",
+    //   "복지",
+    //   "청년",
+    //   "선거",
+    //   "탄핵",
+    //   "오염수",
+    //   "부동산",
+    //   "복지",
+    //   "청년",
+    //   "선거",
+    //   "탄핵",
+    //   "오염수",
+    //   "부동산",
+    //   "복지",
+    //   "청년",
+    //   "선거",
+    //   "탄핵",
+    //   "오염수",
+    //   "부동산",
+    //   "복지",
+    //   "청년",
+    // ]);
+    // const barHeights = ref([
+    //   80, 60, 99, 50, 70, 40, 80, 60, 99, 50, 70, 40, 80, 60, 98, 50, 70, 40,
+    //   80, 60, 99, 50, 70, 40,
+    // ]); // 예시 높이 (%)
+    const maxCount = ref(0);
+    const party = ref("");
 
     const hoverIndex = ref(null);
     console.log(hoverIndex.value);
 
     // Hover 바 높이 보여주기
     const showBarHeight = (index) => {
-      console.log(index);
       hoverIndex.value = index;
     };
 
@@ -122,24 +150,54 @@ export default {
       hoverIndex.value = null;
     };
 
-    onMounted(() => {
-      // loadMore();
+    const getHeight = (count) => {
+      return (count / maxCount.value) * 100;
+    };
+
+    const loadData = async () => {
+      await fetchPartyContribution(
+        partyId.value,
+        (newMaxCount) => {
+          maxCount.value = newMaxCount;
+        },
+        (newParty) => {
+          party.value = newParty;
+        }
+      );
+    };
+
+    const setYLabel = () => {
+      for (let i = 0; i < 5; i++) {
+        const yLabel = (maxCount.value / 4) * i;
+        console.log(yLabel);
+        yLabels.value = [yLabel, ...yLabels.value];
+      }
+    };
+
+    onMounted(async () => {
+      await loadData();
+      await setYLabel();
+      console.log(yLabels.value);
+      console.log(maxCount.value);
       const el = document.querySelector(".bars");
       enableMouseScroll(el); // 'category-scroll'에 마우스 드래그로 스크롤 기능 추가
     });
 
     return {
-      partyName,
+      // partyName,
+      getHeight,
       partyLogos,
       yLabels,
-      keywords,
-      barHeights,
+      party,
       hoverIndex,
       showBarHeight,
       hideBarHeight,
+      goToKeywordPage,
+      goToPartyContribution,
+      goToParty,
     };
   },
 };
 </script>
 
-<style src="../css/PartyContribution.css" scoped></style>
+<style src="@/css/PartyContribution.css" scoped></style>

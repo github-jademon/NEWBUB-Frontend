@@ -1,6 +1,6 @@
 <template>
   <div class="issue-page page">
-    <div class="title">ISSUE</div>
+    <div class="title" @click="goToIssue" style="cursor: pointer">ISSUE</div>
 
     <div class="content">
       <div class="item">
@@ -18,21 +18,21 @@
               placeholder="키워드를 입력하세요"
             />
             <button @click="goToSearch">
-              <img src="../assets/ic-search.png" />
+              <img src="@/assets/ic-search.png" />
             </button>
           </label>
         </div>
       </div>
 
       <div class="content-img">
-        <img src="../assets/issueImg.png" />
+        <img src="@/assets/issueImg.png" />
       </div>
     </div>
     <!-- </div> -->
 
     <div class="sub-title">
       <div class="img">
-        <img src="../assets/issue.png" />
+        <img src="@/assets/issue.png" />
       </div>
       <span>KEY WORD</span>
     </div>
@@ -54,16 +54,19 @@
       <!-- 필터링된 키워드 리스트 -->
       <div class="table-body">
         <div
-          v-for="(keyword, index) in filteredKeywords"
+          v-for="(keyword, index) in keywordList"
           :key="keyword.name"
-          @click="goToKeyword(keyword.name)"
+          @click="goToKeywordPage(keyword)"
           class="table-row"
         >
           <div class="table-item col-number">
             <div>{{ index + 1 }}</div>
           </div>
-          <div class="table-item col-keyword">#{{ keyword.name }}</div>
+          <div class="table-item col-keyword"># {{ keyword }}</div>
         </div>
+      </div>
+      <div class="keyword-none" v-if="keywordList.length == 0">
+        키워드가 없습니다.
       </div>
     </div>
 
@@ -75,29 +78,30 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import {
   enableMouseScroll,
   goToSearchFromCommon,
   selectCategoryFromCommon,
-} from "../functions/common";
-import { fetchIssueData } from "../functions/fetch";
+} from "@/functions/common";
+import { fetchIssueData } from "@/functions/fetch";
 import { useRoute } from "vue-router";
+import { goToIssue, goToKeywordPage } from "@/functions/goToLink";
 
-const exampleData = {
-  has_more: false,
-  data: [
-    { name: "키워드2", category: "정치" },
-    { name: "키워드4", category: "정치" },
-    { name: "키워드6", category: "정치" },
-    { name: "키워드8", category: "정치" },
-    { name: "키워드10", category: "정치" },
-    { name: "키워드12", category: "정치" },
-    { name: "키워드14", category: "정치" },
-    { name: "키워드16", category: "정치" },
-    { name: "키워드18", category: "정치" },
-  ],
-};
+// const exampleData = {
+//   has_more: false,
+//   data: [
+//     { name: "키워드2", category: "정치" },
+//     { name: "키워드4", category: "정치" },
+//     { name: "키워드6", category: "정치" },
+//     { name: "키워드8", category: "정치" },
+//     { name: "키워드10", category: "정치" },
+//     { name: "키워드12", category: "정치" },
+//     { name: "키워드14", category: "정치" },
+//     { name: "키워드16", category: "정치" },
+//     { name: "키워드18", category: "정치" },
+//   ],
+// };
 
 export default {
   name: "IssuePage",
@@ -120,22 +124,13 @@ export default {
 
     const searchQuery = ref(route.query.q || ""); // 사용자가 입력한 검색어
     const selectedCategory = ref(
-      route.query.category in categories.value ? route.query.category : "전체"
+      categories.value.includes(route.query.category)
+        ? route.query.category
+        : "전체"
     ); // 현재 선택된 카테고리
     const page = ref(1); // 현재 페이지
     const hasMore = ref(false); // 더보기 여부
     const keywordList = ref([]); // 뉴스 리스트
-
-    // filteredNews는 searchQuery와 selectedCategory에 따라 필터링된 뉴스
-    const filteredKeywords = computed(() => {
-      let filtered = keywordList.value;
-
-      console.log(filtered);
-
-      return filtered;
-    });
-
-    console.log(selectedCategory.value);
 
     // 뉴스 더보기 함수
     const loadMore = () => {
@@ -153,10 +148,10 @@ export default {
           hasMore.value = more; // 더 이상 데이터가 없으면 false
         }
       );
-      if (keywordList.value.length == 0) {
-        keywordList.value = exampleData.data;
-        hasMore.value = exampleData.has_more;
-      }
+      // if (keywordList.value.length == 0) {
+      //   keywordList.value = exampleData.data;
+      //   hasMore.value = exampleData.has_more;
+      // }
     };
 
     // 검색어로 뉴스 필터링
@@ -192,11 +187,6 @@ export default {
       );
     };
 
-    // 뉴스 상세 페이지로 이동
-    const goToKeyword = (name) => {
-      window.location.href = `/keyword/${name}`;
-    };
-
     // 최초 마운트 시 데이터 불러오기
     onMounted(() => {
       loadMore();
@@ -210,15 +200,15 @@ export default {
       categories,
       keywordList,
       loadMore,
-      filteredKeywords,
       hasMore,
       page,
       goToSearch,
       selectCategory,
-      goToKeyword,
+      goToKeywordPage,
+      goToIssue,
     };
   },
 };
 </script>
 
-<style src="../css/Issue.css" scoped></style>
+<style src="@/css/Issue.css" scoped></style>

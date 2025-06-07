@@ -1,6 +1,6 @@
 <template>
   <div class="law-page page">
-    <div class="title">LAW</div>
+    <div class="title" @click="goToLawPage()" style="cursor: pointer">LAW</div>
 
     <div class="content">
       <div class="item">
@@ -18,21 +18,21 @@
               placeholder="키워드를 입력하세요"
             />
             <button @click="goToSearch">
-              <img src="../assets/ic-search.png" />
+              <img src="@/assets/ic-search.png" />
             </button>
           </label>
         </div>
       </div>
 
       <div class="content-img">
-        <img src="../assets/lawImg.png" />
+        <img src="@/assets/lawImg.png" />
       </div>
     </div>
 
     <!-- 📋 법안 리스트 -->
     <div class="sub-title">
       <div class="img">
-        <img src="../assets/ic-law.png" />
+        <img src="@/assets/ic-law.png" />
       </div>
       <span>법안 처리 현황</span>
     </div>
@@ -50,11 +50,13 @@
           class="table-row"
           v-for="(law, index) in filteredLaws"
           :key="index"
+          @click="goToLawDetail(law.id)"
+          style="cursor: pointer"
         >
           <div class="col-number table-item">
             <div>{{ index + 1 }}</div>
           </div>
-          <div class="col-title table-item" @click="goToLawDetail(law.id)">
+          <div class="col-title table-item">
             {{ law.name }}
           </div>
           <div class="col-status table-item">
@@ -74,6 +76,7 @@
             </div>
           </div>
         </div>
+        <div class="law-none" v-if="lawList.length == 0">법안이 없습니다.</div>
       </div>
     </div>
 
@@ -86,39 +89,10 @@
 
 <script>
 import { ref, computed, onMounted } from "vue";
-import { goToSearchFromCommon } from "../functions/common";
-import { fetchLawData } from "../functions/fetch";
+import { goToSearchFromCommon } from "@/functions/common";
+import { fetchLawListData } from "@/functions/fetch";
 import { useRoute } from "vue-router";
-
-const exampleData = {
-  has_more: false,
-  data: [
-    {
-      id: 1,
-      name: "법안1",
-      processing_status: 2,
-      processing_result: "임기만료폐기",
-      date: "2025-06-05",
-      keywords: ["키워드1", "키워드2"],
-    },
-    {
-      id: 2,
-      name: "법안2",
-      processing_status: 3,
-      processing_result: "원안가결",
-      date: "2025-06-05",
-      keywords: ["키워드2", "키워드3"],
-    },
-    {
-      id: 19,
-      name: "법안19",
-      processing_status: 5,
-      processing_result: "임기만료폐기",
-      date: "2025-06-05",
-      keywords: ["키워드19", "키워드20"],
-    },
-  ],
-};
+import { goToLawPage, goToLawDetail } from "@/functions/goToLink";
 
 export default {
   name: "LawPage",
@@ -156,7 +130,6 @@ export default {
       },
     ];
 
-    // filteredNews는 searchQuery와 selectedCategory에 따라 필터링된 뉴스
     const filteredLaws = computed(() => {
       let filtered = lawList.value;
 
@@ -167,7 +140,7 @@ export default {
 
     // 뉴스 더보기 함수
     const loadMore = () => {
-      fetchLawData(
+      fetchLawListData(
         page.value,
         searchQuery.value,
         (newPage) => {
@@ -180,10 +153,10 @@ export default {
           hasMore.value = more; // 더 이상 데이터가 없으면 false
         }
       );
-      if (lawList.value.length == 0) {
-        lawList.value = exampleData.data;
-        hasMore.value = exampleData.has_more;
-      }
+      // if (lawList.value.length == 0) {
+      //   lawList.value = exampleData.data;
+      //   hasMore.value = exampleData.has_more;
+      // }
     };
 
     // 검색어로 뉴스 필터링
@@ -196,15 +169,6 @@ export default {
         },
         loadMore
       );
-    };
-
-    // 뉴스 상세 페이지로 이동
-    const goToKeyword = (name) => {
-      window.location.href = `/keyword/${name}`;
-    };
-
-    const goToLawDetail = (id) => {
-      window.location.href = `/law-detail/${id}`;
     };
 
     // 최초 마운트 시 데이터 불러오기
@@ -220,12 +184,42 @@ export default {
       hasMore,
       page,
       goToSearch,
-      goToKeyword,
       goToLawDetail,
       colorList,
+      goToLawPage,
     };
   },
 };
+
+// const exampleData = {
+//   has_more: false,
+//   data: [
+//     {
+//       id: 1,
+//       name: "법안1",
+//       processing_status: 2,
+//       processing_result: "임기만료폐기",
+//       date: "2025-06-05",
+//       keywords: ["키워드1", "키워드2"],
+//     },
+//     {
+//       id: 2,
+//       name: "법안2",
+//       processing_status: 3,
+//       processing_result: "원안가결",
+//       date: "2025-06-05",
+//       keywords: ["키워드2", "키워드3"],
+//     },
+//     {
+//       id: 19,
+//       name: "법안19",
+//       processing_status: 5,
+//       processing_result: "임기만료폐기",
+//       date: "2025-06-05",
+//       keywords: ["키워드19", "키워드20"],
+//     },
+//   ],
+// };
 </script>
 
-<style src="../css/Law.css" scoped></style>
+<style src="@/css/Law.css" scoped></style>
