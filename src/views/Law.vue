@@ -138,7 +138,6 @@ export default {
       return filtered;
     });
 
-    // 뉴스 더보기 함수
     const loadMore = () => {
       fetchLawListData(
         page.value,

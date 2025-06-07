@@ -196,3 +196,33 @@ export const fetchPartyData = async (setParty) => {
     console.log("Error:", error);
   }
 };
+
+export const fetchRelationLawListData = async (
+  page,
+  keywords,
+  setPage,
+  setLawList,
+  setHasMore,
+  limit = 8
+) => {
+  try {
+    const response = await fetch(`/api/laws?page=${page}&limit=${limit}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    // 결과를 반환할 때 상태를 업데이트
+    setLawList(result.laws);
+    if (setHasMore) setHasMore(result.has_more);
+
+    console.log(result);
+
+    if (result.has_more) {
+      if (setHasMore) setPage(page + 1);
+    }
+  } catch (error) {
+    console.log("Error:", error);
+    if (setHasMore) setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
+  }
+};

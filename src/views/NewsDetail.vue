@@ -109,15 +109,14 @@
                 @click="goToLawDetail(law.id)"
                 style="cursor: pointer"
               >
-                {{ law.title }}
+                {{ law.name }}
               </div>
               <div class="law-none" v-if="lawList.length == 0">
                 법안이 없습니다.
               </div>
-            </div>
-
-            <div class="more-law-button" v-if="hasMore" @click="loadMoreLaws">
-              법안 더보기
+              <div class="more-law-button" v-if="hasMore" @click="loadMoreLaws">
+                법안 더보기
+              </div>
             </div>
           </div>
         </div>
@@ -127,7 +126,11 @@
 </template>
 
 <script>
-import { fetchNewsData, fetchNewsListData } from "@/functions/fetch";
+import {
+  fetchNewsData,
+  fetchNewsListData,
+  fetchRelationLawListData,
+} from "@/functions/fetch";
 import {
   goToOriginalLink,
   goToLawDetail,
@@ -261,7 +264,7 @@ export default {
     const newsList = ref({});
     const lawList = ref([]);
     const page = ref(1);
-    const hasMore = ref(true);
+    const hasMore = ref(false);
 
     const loadData = async () => {
       await fetchNewsData(newsId.value, (newNews) => {
@@ -287,13 +290,25 @@ export default {
 
     const loadMoreLaws = () => {
       // lawList.value = [...lawList.value, ...exampleData2];
+      fetchRelationLawListData(
+        page.value,
+        news.value.keywords,
+        (newPage) => {
+          page.value = newPage;
+        },
+        (newLawList) => {
+          lawList.value = [...lawList.value, ...newLawList];
+        },
+        (more) => {
+          hasMore.value = more; // 더 이상 데이터가 없으면 false
+        }
+      );
     };
 
     onMounted(async () => {
       await loadData();
       await loadNewsListData();
-      await console.log("aa", newsList.value);
-      await console.log("aa", newsList.value["정치"]);
+      await loadMoreLaws();
     });
 
     return {
