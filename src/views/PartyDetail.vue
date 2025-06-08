@@ -32,7 +32,7 @@
               backgroundColor: getPartyColor(party.name),
               cursor: 'pointer',
             }"
-            @click="goToPartyContribution(party.name)"
+            @click="goToPartyContribution(party.id)"
           >
             {{ party.name }}
           </div>

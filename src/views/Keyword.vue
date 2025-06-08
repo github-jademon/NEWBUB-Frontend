@@ -89,7 +89,7 @@
             </div>
             <div class="news-item">
               <div class="news-title">{{ news.title }}</div>
-              <div class="news-date">{{ news.news_dt }}</div>
+              <div class="news-date">{{ news.date }}</div>
             </div>
           </div>
           <div class="data-none" v-if="newsList.length == 0">
@@ -173,6 +173,7 @@ export default {
     const loadLaw = () => {
       fetchLawListData(
         1,
+        1,
         keyword.value,
         null,
         (newLawList) => {
@@ -185,6 +186,7 @@ export default {
 
     const loadNews = () => {
       fetchNewsListData(
+        1,
         1,
         keyword.value,
         "",

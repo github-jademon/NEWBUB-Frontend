@@ -1,6 +1,10 @@
 .page.party-page {
   /* height: calc(100% + 50px); */
-  margin: 35px auto 50px auto;
+  margin: 0 auto 10px auto;
+}
+
+.page.data-none {
+  margin: 0 auto;
 }
 
 .party-page .sub-title {
@@ -12,6 +16,19 @@
 
 .party-page .sub-title .img {
   height: 10px;
+}
+
+.page .data-none {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  height: 190px;
+  align-items: center;
+}
+
+.party-logos.data-none {
+  display: flex;
+  flex-direction: row;
 }
 
 /* 키워드별 아이콘 */

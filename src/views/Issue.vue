@@ -68,11 +68,9 @@
       <div class="keyword-none" v-if="keywordList.length == 0">
         키워드가 없습니다.
       </div>
-    </div>
-
-    <!-- 더보기 버튼 -->
-    <div class="load-more" v-if="hasMore == true">
-      <button @click="loadMore">더보기</button>
+      <div class="load-more" v-if="hasMore == true">
+        <button @click="loadMore(page.value)">더보기</button>
+      </div>
     </div>
   </div>
 </template>
@@ -117,7 +115,6 @@ export default {
       "국제",
       "문화·라이프",
       "스포츠",
-      "과학",
       "건강",
       "산업",
     ]);
@@ -133,8 +130,9 @@ export default {
     const keywordList = ref([]); // 뉴스 리스트
 
     // 뉴스 더보기 함수
-    const loadMore = () => {
+    const loadMore = (page1) => {
       fetchIssueData(
+        page1,
         page.value,
         searchQuery.value,
         selectedCategory.value === "전체" ? "" : selectedCategory.value,
@@ -189,7 +187,7 @@ export default {
 
     // 최초 마운트 시 데이터 불러오기
     onMounted(() => {
-      loadMore();
+      loadMore(1);
       const el = document.querySelector(".category-scroll");
       enableMouseScroll(el); // 'category-scroll'에 마우스 드래그로 스크롤 기능 추가
     });

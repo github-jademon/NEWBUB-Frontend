@@ -53,7 +53,7 @@
           <div class="proposal-content">
             <h2>제안 이유 및 주요 내용</h2>
 
-            {{ law.summary }}
+            <p v-html="summary"></p>
 
             <div class="more-link" @click="goToOriginalLink(law.link)">
               <span>법안 자세히 보기</span>
@@ -109,7 +109,7 @@ import {
   goToKeywordPage,
   goToPartyContribution,
 } from "@/functions/goToLink";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
@@ -119,6 +119,11 @@ export default {
     const lawId = ref(route.params.id || "");
     const law = ref({});
     console.log(lawId.value);
+
+    const summary = computed(() => {
+      // return law.value.summary;
+      return law.value?.summary?.replace(/\\n/g, "<br>") ?? "";
+    });
 
     const processSteps = ref([
       {
@@ -171,6 +176,7 @@ export default {
       goToPartyContribution,
       isStepCompletedEnd,
       goToLawPage,
+      summary,
     };
   },
 };

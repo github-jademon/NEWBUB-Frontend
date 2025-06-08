@@ -11,7 +11,7 @@
         style="cursor: pointer"
       >
         <span>{{ item }}</span>
-        <span v-if="idx < item.length" class="newslist-line"
+        <span v-if="checkLine(idx + 1)" class="newslist-line"
           ><img src="@/assets/line.png"
         /></span>
       </span>
@@ -26,24 +26,19 @@
             <h1 class="news-title">{{ news.title }}</h1>
             <div class="news-meta">
               <span>
-                <span
-                  class="news-item"
-                  v-for="(item, idx) in news.author"
-                  :key="idx"
-                  style="cursor: pointer"
-                >
+                <span class="news-item">
                   <span v-if="idx > 0" style="width: 5px">, </span>
-                  <span>{{ item }}</span>
+                  <span>{{ news.author }}</span>
                 </span>
               </span>
               <span>{{ news.date }}</span>
             </div>
 
-            <div class="news-image" v-if="news.image">
-              <img :src="news.image" />
+            <div class="news-image" v-if="news.img">
+              <img :src="news.img" />
             </div>
 
-            <p class="news-summary">{{ news.text }}</p>
+            <p v-html="text"></p>
 
             <div class="more-link" @click="goToOriginalLink(news.link)">
               뉴스 자세히 보기 &gt;
@@ -53,7 +48,7 @@
 
           <div v-for="(items, index) in newsList" :key="index">
             <div class="related-news-section">
-              <h3 @click="goToNewsListPage(category)" style="cursor: pointer">
+              <h3 @click="goToNewsListPage(index)" style="cursor: pointer">
                 <strong>{{ index }}</strong>
                 <span> 관련 뉴스 더보기</span>
               </h3>
@@ -66,7 +61,7 @@
                     @click="goToNewsDetail(item.id)"
                     style="cursor: pointer"
                   >
-                    <img :src="item.image" class="related-news-image" />
+                    <img :src="item.img" class="related-news-image" />
                     <div class="related-news-info">
                       <p class="related-news-title">{{ item.title }}</p>
                       <p class="related-news-meta">{{ item.date }}</p>
@@ -138,8 +133,90 @@ import {
   goToNewsListPage,
   goToKeywordPage,
 } from "@/functions/goToLink";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+
+export default {
+  name: "NewsDetail",
+  setup() {
+    const route = useRoute();
+    const newsId = ref(route.params.id || "");
+    const news = ref({});
+    const newsList = ref({});
+    const lawList = ref([]);
+    const page = ref(1);
+    const hasMore = ref(false);
+
+    const text = computed(() => {
+      return news.value?.text?.replace(/\\n/g, "<br>") ?? "";
+    });
+
+    const checkLine = (idx) => {
+      return idx < news.value.categories.length;
+    };
+
+    const loadData = async () => {
+      await fetchNewsData(newsId.value, (newNews) => {
+        news.value = newNews;
+      });
+    };
+
+    const loadNewsListData = () => {
+      for (const i in news.value.categories) {
+        fetchNewsListData(
+          1,
+          1,
+          "",
+          news.value.categories[i],
+          null,
+          (newNews) => {
+            newsList.value[news.value.categories[i]] = newNews;
+          },
+          null,
+          4
+        );
+      }
+    };
+
+    const loadMoreLaws = () => {
+      fetchRelationLawListData(
+        page.value,
+        news.value.keywords,
+        (newPage) => {
+          page.value = newPage;
+        },
+        (newLawList) => {
+          lawList.value = [...lawList.value, ...newLawList];
+        },
+        (more) => {
+          hasMore.value = more; // 더 이상 데이터가 없으면 false
+        }
+      );
+    };
+
+    onMounted(async () => {
+      await loadData();
+      await loadNewsListData();
+      await loadMoreLaws();
+    });
+
+    return {
+      news,
+      newsList,
+      lawList,
+      hasMore,
+      page,
+      goToNewsListPage,
+      goToKeywordPage,
+      goToNewsDetail,
+      goToLawDetail,
+      loadMoreLaws,
+      goToOriginalLink,
+      text,
+      checkLine,
+    };
+  },
+};
 
 // const exampleData = {
 //   id: 1,
@@ -254,78 +331,6 @@ import { useRoute } from "vue-router";
 //   { id: "law6", title: "예시법안 제목 6" },
 //   { id: "law7", title: "예시법안 제목 7" },
 // ];
-
-export default {
-  name: "NewsDetail",
-  setup() {
-    const route = useRoute();
-    const newsId = ref(route.params.id || "");
-    const news = ref({});
-    const newsList = ref({});
-    const lawList = ref([]);
-    const page = ref(1);
-    const hasMore = ref(false);
-
-    const loadData = async () => {
-      await fetchNewsData(newsId.value, (newNews) => {
-        news.value = newNews;
-      });
-    };
-
-    const loadNewsListData = () => {
-      for (const i in news.value.categories) {
-        fetchNewsListData(
-          1,
-          "",
-          news.value.categories[i],
-          null,
-          (newNews) => {
-            newsList.value[news.value.categories[i]] = newNews;
-          },
-          null,
-          4
-        );
-      }
-    };
-
-    const loadMoreLaws = () => {
-      // lawList.value = [...lawList.value, ...exampleData2];
-      fetchRelationLawListData(
-        page.value,
-        news.value.keywords,
-        (newPage) => {
-          page.value = newPage;
-        },
-        (newLawList) => {
-          lawList.value = [...lawList.value, ...newLawList];
-        },
-        (more) => {
-          hasMore.value = more; // 더 이상 데이터가 없으면 false
-        }
-      );
-    };
-
-    onMounted(async () => {
-      await loadData();
-      await loadNewsListData();
-      await loadMoreLaws();
-    });
-
-    return {
-      news,
-      newsList,
-      lawList,
-      hasMore,
-      page,
-      goToNewsListPage,
-      goToKeywordPage,
-      goToNewsDetail,
-      goToLawDetail,
-      loadMoreLaws,
-      goToOriginalLink,
-    };
-  },
-};
 </script>
 
 <style src="@/css/NewsDetail.css" scoped></style>

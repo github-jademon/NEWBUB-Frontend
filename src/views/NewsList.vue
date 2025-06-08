@@ -57,7 +57,7 @@
         <div
           v-for="(news, index) in filteredNews"
           :key="index"
-          @click="goToNewsDetail(news.news_id)"
+          @click="goToNewsDetail(news.id)"
           class="table-row"
           style="cursor: pointer"
         >
@@ -66,18 +66,18 @@
           </div>
           <div class="news-item">
             <div class="news-title">{{ news.title }}</div>
-            <div class="news-date">{{ news.news_dt }}</div>
+            <div class="news-date">{{ news.date }}</div>
           </div>
         </div>
         <div class="news-none" v-if="newsList.length == 0">
           뉴스가 없습니다.
         </div>
-      </div>
-    </div>
 
-    <!-- 더보기 버튼 -->
-    <div class="load-more" v-if="hasMore">
-      <button @click="loadMore">더보기</button>
+        <!-- 더보기 버튼 -->
+        <div class="load-more" v-if="hasMore">
+          <button @click="loadMore">더보기</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +106,6 @@ export default {
       "국제",
       "문화·라이프",
       "스포츠",
-      "과학",
       "건강",
       "산업",
     ]);
@@ -131,8 +130,9 @@ export default {
     });
 
     // 뉴스 더보기 함수
-    const loadMore = () => {
+    const loadMore = (page1) => {
       fetchNewsListData(
+        page1,
         page.value,
         searchQuery.value,
         selectedCategory.value,

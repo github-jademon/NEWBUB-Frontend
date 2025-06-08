@@ -77,12 +77,12 @@
           </div>
         </div>
         <div class="law-none" v-if="lawList.length == 0">법안이 없습니다.</div>
-      </div>
-    </div>
 
-    <!-- 더보기 버튼 -->
-    <div class="load-more" v-if="hasMore == true">
-      <button @click="loadMore">더보기</button>
+        <!-- 더보기 버튼 -->
+        <div class="load-more" v-if="hasMore == true">
+          <button @click="loadMore(page.value)">더보기</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -138,8 +138,9 @@ export default {
       return filtered;
     });
 
-    const loadMore = () => {
+    const loadMore = (page1) => {
       fetchLawListData(
+        page1,
         page.value,
         searchQuery.value,
         (newPage) => {
@@ -152,10 +153,6 @@ export default {
           hasMore.value = more; // 더 이상 데이터가 없으면 false
         }
       );
-      // if (lawList.value.length == 0) {
-      //   lawList.value = exampleData.data;
-      //   hasMore.value = exampleData.has_more;
-      // }
     };
 
     // 검색어로 뉴스 필터링
@@ -172,7 +169,7 @@ export default {
 
     // 최초 마운트 시 데이터 불러오기
     onMounted(() => {
-      loadMore();
+      loadMore(1);
     });
 
     return {

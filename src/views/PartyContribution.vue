@@ -6,7 +6,7 @@
         <img src="@/assets/shape.png" />
       </div>
       <span
-        @click="goToPartyContribution(partyName)"
+        @click="goToPartyContribution1"
         style="font-weight: 600; cursor: pointer"
         >PARTY CONTRIBUTION</span
       >
@@ -25,17 +25,15 @@
       <div class="party-logos">
         <div
           class="party-logo"
-          @click="goToPartyContribution(party.name)"
+          @click="goToPartyContribution1"
           style="cursor: pointer"
         >
           <img :src="party.img" :alt="party.name" />
         </div>
       </div>
-      <span
-        @click="goToPartyContribution(party.name)"
-        style="cursor: pointer"
-        >{{ party.name }}</span
-      >
+      <span @click="goToPartyContribution1" style="cursor: pointer">{{
+        party.name
+      }}</span>
     </div>
 
     <div class="bar-chart-container">
@@ -91,7 +89,8 @@ export default {
   name: "PartyContribution",
   setup() {
     const route = useRoute();
-    const partyId = ref(route.params.id || 1);
+    const partyId = ref(route.params.id[0] || 1);
+
     const partyLogos = ref({
       더불어민주당: "https://placehold.co/600x400",
       국민의힘: "https://placehold.co/600x400",
@@ -136,6 +135,10 @@ export default {
     // ]); // 예시 높이 (%)
     const maxCount = ref(0);
     const party = ref("");
+
+    const goToPartyContribution1 = () => {
+      goToPartyContribution(partyId.value);
+    };
 
     const hoverIndex = ref(null);
     console.log(hoverIndex.value);
@@ -184,7 +187,7 @@ export default {
     });
 
     return {
-      // partyName,
+      goToPartyContribution1,
       getHeight,
       partyLogos,
       yLabels,
@@ -193,7 +196,6 @@ export default {
       showBarHeight,
       hideBarHeight,
       goToKeywordPage,
-      goToPartyContribution,
       goToParty,
     };
   },

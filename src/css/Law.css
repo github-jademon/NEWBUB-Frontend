@@ -64,14 +64,25 @@
   width: 74px;
 }
 
-/* 더보기 버튼 */
 .load-more {
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-top: 5px;
 }
 
 .load-more button {
-  padding: 8px 16px;
   font-size: 16px;
   cursor: pointer;
+  width: 100%;
+  background-color: #f3f6fb;
+  color: #045dcf;
+  transition: background-color 0.2s;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px 16px;
 }

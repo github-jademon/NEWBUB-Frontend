@@ -45,7 +45,7 @@ export const selectCategoryFromCommon = (
     `${url}?category=${category}` // 쿼리로 검색어를 전달
   );
   setNewsList([]);
-  loadMore(); // 새로운 검색 결과 불러오기
+  loadMore(1); // 새로운 검색 결과 불러오기
 };
 
 export const goToSearchFromCommon = (
@@ -65,6 +65,6 @@ export const goToSearchFromCommon = (
       `${url}?q=${query}` // 쿼리로 검색어를 전달
     );
     setList([]);
-    loadMore(); // 새로운 검색 결과 불러오기
+    loadMore(1); // 새로운 검색 결과 불러오기
   }
 };

@@ -1,4 +1,5 @@
 export const fetchNewsListData = async (
+  page1,
   page,
   searchQuery,
   selectedCategory,
@@ -9,7 +10,7 @@ export const fetchNewsListData = async (
 ) => {
   try {
     const response = await fetch(
-      `/api/news?page=${page}&q=${searchQuery}&category=${selectedCategory}&limit=${limit}`,
+      `/api/news/?page=${page}&q=${searchQuery}&category=${selectedCategory}&limit=${limit}`,
       {
         method: "GET",
         credentials: "include",
@@ -24,7 +25,8 @@ export const fetchNewsListData = async (
     console.log(result);
 
     if (result.has_more) {
-      if (setHasMore) setPage(page + 1);
+      if (page1 == 1) setPage(1);
+      else setPage(page + 1);
     }
   } catch (error) {
     console.log("Error:", error);
@@ -33,6 +35,7 @@ export const fetchNewsListData = async (
 };
 
 export const fetchIssueData = async (
+  page1,
   page,
   searchQuery,
   selectedCategory,
@@ -43,7 +46,7 @@ export const fetchIssueData = async (
 ) => {
   try {
     const response = await fetch(
-      `/api/issue?page=${page}&q=${searchQuery}&category=${selectedCategory}&limit=${limit}`,
+      `/api/issue/?page=${page}&q=${searchQuery}&category=${selectedCategory}&limit=${limit}`,
       {
         method: "GET",
         credentials: "include",
@@ -58,7 +61,8 @@ export const fetchIssueData = async (
     console.log(result);
 
     if (result.has_more) {
-      setPage(page + 1);
+      if (page1 == 1) setPage(1);
+      else setPage(page + 1);
     }
   } catch (error) {
     console.log("Error:", error);
@@ -67,6 +71,7 @@ export const fetchIssueData = async (
 };
 
 export const fetchLawListData = async (
+  page1,
   page,
   searchQuery,
   setPage,
@@ -76,7 +81,7 @@ export const fetchLawListData = async (
 ) => {
   try {
     const response = await fetch(
-      `/api/laws?page=${page}&q=${searchQuery}&limit=${limit}`,
+      `/api/laws/?page=${page}&q=${searchQuery}&limit=${limit}`,
       {
         method: "GET",
         credentials: "include",
@@ -91,7 +96,8 @@ export const fetchLawListData = async (
     console.log(result);
 
     if (result.has_more) {
-      if (setHasMore) setPage(page + 1);
+      if (page1 == 1) setPage(1);
+      else setPage(page + 1);
     }
   } catch (error) {
     console.log("Error:", error);
@@ -181,16 +187,15 @@ export const fetchPartyContribution = async (id, setMaxCount, setParty) => {
 
 export const fetchPartyData = async (setParty) => {
   try {
-    const response = await fetch(`/api/party`, {
+    const response = await fetch(`/api/party/`, {
       method: "GET",
       credentials: "include",
     });
     const result = await response.json();
 
     // 결과를 반환할 때 상태를 업데이트
-    setParty(result[1].parties);
+    setParty(result);
 
-    console.log(result[1].parties);
     console.log(result);
   } catch (error) {
     console.log("Error:", error);
@@ -202,18 +207,26 @@ export const fetchRelationLawListData = async (
   keywords,
   setPage,
   setLawList,
-  setHasMore,
-  limit = 8
+  setHasMore
 ) => {
   try {
-    const response = await fetch(`/api/laws?page=${page}&limit=${limit}`, {
-      method: "GET",
+    console.log(keywords);
+    const data = {
+      keywords: keywords,
+    };
+
+    const response = await fetch(`/api/news/match-laws/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
+      body: JSON.stringify(data),
     });
     const result = await response.json();
 
     // 결과를 반환할 때 상태를 업데이트
-    setLawList(result.laws);
+    setLawList(result.matched_laws);
     if (setHasMore) setHasMore(result.has_more);
 
     console.log(result);

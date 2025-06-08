@@ -1,5 +1,8 @@
 <template>
-  <div class="party-page page">
+  <div
+    class="party-page page"
+    :class="parties.length == 0 && top5Data.length == 0 ? 'data-none' : ''"
+  >
     <h1 class="title" @click="goToParty" style="cursor: pointer">
       POLITICAL PARTY
     </h1>
@@ -14,7 +17,7 @@
       </div>
     </div>
 
-    <div class="keyword-top5">
+    <div :class="['keyword-top5', top5Data.length == 0 ? 'data-none' : '']">
       <div v-for="(item, index) in top5Data" :key="index" class="keyword-row">
         <strong class="keyword-name" @click="goToKeywordPage(item.keyword)">
           <span>#</span> {{ item.keyword }}
@@ -35,6 +38,7 @@
           </div>
         </div>
       </div>
+      <span v-if="top5Data == 0"> 데이터가 없습니다 </span>
     </div>
 
     <div class="sub-title">
@@ -44,7 +48,7 @@
       <span>정당별 키워드 관여도</span>
     </div>
 
-    <div class="party-logos">
+    <div :class="['party-logos', parties.length == 0 ? 'data-none' : '']">
       <div
         v-for="(party, index) in parties"
         :key="index"
@@ -57,6 +61,7 @@
         </div>
         <div class="party-name">{{ party.name }}</div>
       </div>
+      <span v-if="parties == 0"> 데이터가 없습니다 </span>
     </div>
   </div>
 </template>
