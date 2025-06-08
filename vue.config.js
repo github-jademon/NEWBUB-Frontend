@@ -2,6 +2,7 @@ const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   transpileDependencies: true, // 의존성 트랜스파일
   devServer: {
+    historyApiFallback: true,
     proxy: {
       "/api": {
         // target: "http://192.168.31.157:8000", // 실제 API 서버 URL

@@ -58,13 +58,11 @@ export const goToSearchFromCommon = (
   if (setCategory) {
     setCategory(""); // 카테고리 초기화
   }
-  if (query.trim()) {
-    window.history.pushState(
-      null,
-      null,
-      `${url}?q=${query}` // 쿼리로 검색어를 전달
-    );
-    setList([]);
-    loadMore(1); // 새로운 검색 결과 불러오기
-  }
+  window.history.pushState(
+    null,
+    null,
+    `${url}?q=${query}` // 쿼리로 검색어를 전달
+  );
+  setList([]);
+  loadMore(1); // 새로운 검색 결과 불러오기
 };
