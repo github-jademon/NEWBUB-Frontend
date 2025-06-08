@@ -38,7 +38,7 @@
               <img :src="news.img" />
             </div>
 
-            <p v-html="text"></p>
+            <p class="news-text" v-html="text"></p>
 
             <div class="more-link" @click="goToOriginalLink(news.link)">
               뉴스 자세히 보기 &gt;
@@ -148,7 +148,10 @@ export default {
     const hasMore = ref(false);
 
     const text = computed(() => {
-      return news.value?.text?.replace(/\\n/g, "<br>") ?? "";
+      return (news.value?.text?.slice(0, 400) + "..." ?? "").replace(
+        /\\n/g,
+        "<br>"
+      );
     });
 
     const checkLine = (idx) => {
