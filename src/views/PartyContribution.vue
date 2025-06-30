@@ -141,7 +141,6 @@ export default {
     };
 
     const hoverIndex = ref(null);
-    console.log(hoverIndex.value);
 
     // Hover 바 높이 보여주기
     const showBarHeight = (index) => {
@@ -172,7 +171,6 @@ export default {
     const setYLabel = () => {
       for (let i = 0; i < 5; i++) {
         const yLabel = (maxCount.value / 4) * i;
-        console.log(yLabel);
         yLabels.value = [yLabel, ...yLabels.value];
       }
     };
@@ -180,8 +178,6 @@ export default {
     onMounted(async () => {
       await loadData();
       await setYLabel();
-      console.log(yLabels.value);
-      console.log(maxCount.value);
       const el = document.querySelector(".bars");
       enableMouseScroll(el); // 'category-scroll'에 마우스 드래그로 스크롤 기능 추가
     });

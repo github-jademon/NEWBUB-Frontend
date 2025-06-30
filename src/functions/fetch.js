@@ -1,9 +1,7 @@
 export const fetchNewsListData = async (
-  page1,
   page,
   searchQuery,
   selectedCategory,
-  setPage,
   setNewsList,
   setHasMore,
   limit = 30
@@ -21,13 +19,6 @@ export const fetchNewsListData = async (
     // 결과를 반환할 때 상태를 업데이트
     setNewsList(result.news);
     if (setHasMore) setHasMore(result.has_more);
-
-    console.log(result);
-
-    if (result.has_more) {
-      if (page1 == 1) setPage(1);
-      else setPage(page + 1);
-    }
   } catch (error) {
     console.log("Error:", error);
     if (setHasMore) setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
@@ -35,11 +26,9 @@ export const fetchNewsListData = async (
 };
 
 export const fetchIssueData = async (
-  page1,
   page,
   searchQuery,
   selectedCategory,
-  setPage,
   setKeywordList,
   setHasMore,
   limit = 30
@@ -57,13 +46,6 @@ export const fetchIssueData = async (
     // 결과를 반환할 때 상태를 업데이트
     setKeywordList(result.keywords);
     setHasMore(result.has_more);
-
-    console.log(result);
-
-    if (result.has_more) {
-      if (page1 == 1) setPage(1);
-      else setPage(page + 1);
-    }
   } catch (error) {
     console.log("Error:", error);
     setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
@@ -71,10 +53,8 @@ export const fetchIssueData = async (
 };
 
 export const fetchLawListData = async (
-  page1,
   page,
   searchQuery,
-  setPage,
   setLawList,
   setHasMore,
   limit = 30
@@ -92,13 +72,6 @@ export const fetchLawListData = async (
     // 결과를 반환할 때 상태를 업데이트
     setLawList(result.laws);
     if (setHasMore) setHasMore(result.has_more);
-
-    console.log(result);
-
-    if (result.has_more) {
-      if (page1 == 1) setPage(1);
-      else setPage(page + 1);
-    }
   } catch (error) {
     console.log("Error:", error);
     if (setHasMore) setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
@@ -115,8 +88,6 @@ export const fetchNewsData = async (id, setNews) => {
 
     // 결과를 반환할 때 상태를 업데이트
     setNews(result);
-
-    console.log(result);
   } catch (error) {
     console.log("Error:", error);
   }
@@ -132,8 +103,6 @@ export const fetchLawData = async (id, setLaw) => {
 
     // 결과를 반환할 때 상태를 업데이트
     setLaw(result);
-
-    console.log(result);
   } catch (error) {
     console.log("Error:", error);
   }
@@ -159,8 +128,6 @@ export const fetchTop5Data = async (
 
     if (setPage) setPage(page + 1);
     if (setHasMore) setHasMore(result.has_more);
-
-    console.log(result);
   } catch (error) {
     console.log("Error:", error);
     if (setHasMore) setHasMore(false);
@@ -178,8 +145,6 @@ export const fetchPartyContribution = async (id, setMaxCount, setParty) => {
     // 결과를 반환할 때 상태를 업데이트
     setParty(result);
     setMaxCount(result.max_count);
-
-    console.log(result);
   } catch (error) {
     console.log("Error:", error);
   }
@@ -195,8 +160,6 @@ export const fetchPartyData = async (setParty) => {
 
     // 결과를 반환할 때 상태를 업데이트
     setParty(result);
-
-    console.log(result);
   } catch (error) {
     console.log("Error:", error);
   }
@@ -210,12 +173,11 @@ export const fetchRelationLawListData = async (
   setHasMore
 ) => {
   try {
-    console.log(keywords);
     const data = {
       keywords: keywords,
     };
 
-    const response = await fetch(`/api/news/match-laws/`, {
+    const response = await fetch(`/api/news/match-laws/?page=${page}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -237,5 +199,23 @@ export const fetchRelationLawListData = async (
   } catch (error) {
     console.log("Error:", error);
     if (setHasMore) setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
+  }
+};
+
+export const fetchKeywordData = async (keywordnm, setNewsList, setLawList) => {
+  try {
+    const response = await fetch(`/api/issue/${keywordnm}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+
+    console.log(result);
+
+    // 결과를 반환할 때 상태를 업데이트
+    setLawList(result[0].laws);
+    setNewsList(result[1].news);
+  } catch (error) {
+    console.log("Error:", error);
   }
 };

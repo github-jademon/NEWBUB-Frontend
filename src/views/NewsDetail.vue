@@ -168,10 +168,8 @@ export default {
       for (const i in news.value.categories) {
         fetchNewsListData(
           1,
-          1,
           "",
           news.value.categories[i],
-          null,
           (newNews) => {
             newsList.value[news.value.categories[i]] = newNews;
           },
@@ -200,7 +198,7 @@ export default {
     onMounted(async () => {
       await loadData();
       await loadNewsListData();
-      await loadMoreLaws();
+      // await loadMoreLaws();
     });
 
     return {
@@ -220,120 +218,6 @@ export default {
     };
   },
 };
-
-// const exampleData = {
-//   id: 1,
-//   title: "뉴스1",
-//   date: "2025-05-22 05:22",
-//   related_bills: [
-//     { id: 1, name: "법안1" },
-//     { id: 2, name: "법안2" },
-//   ],
-//   // 데이터 부족
-//   reporter: ["김도윤 기자", "우왕 기자"],
-//   image: "https://placehold.co/600x400",
-//   text: `매월 마지막 주 수요일 미림극장서 무료 상영\n인천투데이=인투아이(INTO-AI)·김도윤 기자｜인천 동구(구청장 김찬진)가 치매 환자와 가족 등 지역 주민을 대상으로 ‘가치함께 시네마’를 지난 4월 30일부터 6월 25일까지 매월 마지막 주 수요일에 운영하고 있다고 밝혔다.`,
-//   category: ["복지", "정치"],
-//   link: "",
-//   keywords: ["치매", "노인복지", "문화생활", "영화", "극장"],
-// };
-
-// const exampleData1 = [
-//   {
-//     key: "복지",
-//     data: [
-//       {
-//         id: "news1",
-//         image: "https://placehold.co/600x400",
-//         title: "청주시, 어린이집 집단급식소 식중독 예방 대책 강화",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news2",
-//         image: "https://placehold.co/600x400",
-//         title: "반지하 밀집 지역에 침수 경보 신기술...서울시 집중호우 대책",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news3",
-//         image: "https://placehold.co/600x400",
-//         title: "강남 아파트 '평당 1억원' 시대…정부 정책이 집값 밀어 올렸다",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news1",
-//         image: "https://placehold.co/600x400",
-//         title: "청주시, 어린이집 집단급식소 식중독 예방 대책 강화",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news2",
-//         image: "https://placehold.co/600x400",
-//         title: "반지하 밀집 지역에 침수 경보 신기술...서울시 집중호우 대책",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news3",
-//         image: "https://placehold.co/600x400",
-//         title: "강남 아파트 '평당 1억원' 시대…정부 정책이 집값 밀어 올렸다",
-//         date: "2025.05.06 04:20",
-//       },
-//       // 추가 뉴스도 id 포함해서 넣으면 됨
-//     ],
-//   },
-//   {
-//     key: "정치",
-//     data: [
-//       {
-//         id: "news1",
-//         image: "https://placehold.co/600x400",
-//         title: "청주시, 어린이집 집단급식소 식중독 예방 대책 강화",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news2",
-//         image: "https://placehold.co/600x400",
-//         title: "반지하 밀집 지역에 침수 경보 신기술...서울시 집중호우 대책",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news3",
-//         image: "https://placehold.co/600x400",
-//         title: "강남 아파트 '평당 1억원' 시대…정부 정책이 집값 밀어 올렸다",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news1",
-//         image: "https://placehold.co/600x400",
-//         title: "청주시, 어린이집 집단급식소 식중독 예방 대책 강화",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news2",
-//         image: "https://placehold.co/600x400",
-//         title: "반지하 밀집 지역에 침수 경보 신기술...서울시 집중호우 대책",
-//         date: "2025.05.06 04:20",
-//       },
-//       {
-//         id: "news3",
-//         image: "https://placehold.co/600x400",
-//         title: "강남 아파트 '평당 1억원' 시대…정부 정책이 집값 밀어 올렸다",
-//         date: "2025.05.06 04:20",
-//       },
-//       // 추가 뉴스도 id 포함해서 넣으면 됨
-//     ],
-//   },
-// ];
-
-// const exampleData2 = [
-//   { id: "law1", title: "예시법안 제목 1" },
-//   { id: "law2", title: "예시법안 제목 2" },
-//   { id: "law3", title: "예시법안 제목 3" },
-//   { id: "law4", title: "예시법안 제목 4" },
-//   { id: "law5", title: "예시법안 제목 5" },
-//   { id: "law6", title: "예시법안 제목 6" },
-//   { id: "law7", title: "예시법안 제목 7" },
-// ];
 </script>
 
 <style src="@/css/NewsDetail.css" scoped></style>

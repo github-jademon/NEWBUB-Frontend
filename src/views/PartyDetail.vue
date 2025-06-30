@@ -63,7 +63,6 @@ export default {
     const hasMore = ref(false);
     const page = ref(1);
 
-    console.log(top5Data.value);
     const getPartyColor = (name) => {
       const colorMap = {
         더불어민주당: "#7AB3E1",

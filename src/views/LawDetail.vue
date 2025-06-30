@@ -35,7 +35,7 @@
           <div class="law-info-table">
             <div class="table-item">
               <div class="col-head">의안 번호</div>
-              <div class="col-data">{{ law.id }}</div>
+              <div class="col-data">{{ law.number }}</div>
             </div>
             <div class="table-item">
               <div class="col-head">대표 발의 의원</div>
@@ -118,7 +118,6 @@ export default {
     const route = useRoute();
     const lawId = ref(route.params.id || "");
     const law = ref({});
-    console.log(lawId.value);
 
     const summary = computed(() => {
       // return law.value.summary;

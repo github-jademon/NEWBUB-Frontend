@@ -15,7 +15,7 @@
               v-model="searchQuery"
               @keyup.enter="goToSearch"
               type="text"
-              placeholder="키워드를 입력하세요"
+              placeholder="제목 또는 키워드를 입력하세요"
             />
             <button @click="goToSearch">
               <img src="@/assets/ic-search.png" />
@@ -80,7 +80,7 @@
 
         <!-- 더보기 버튼 -->
         <div class="load-more" v-if="hasMore == true">
-          <button @click="loadMore(page.value)">더보기</button>
+          <button @click="clickLoadMore">더보기</button>
         </div>
       </div>
     </div>
@@ -130,22 +130,21 @@ export default {
       },
     ];
 
+    const clickLoadMore = () => {
+      if (hasMore.value) page.value += 1;
+      loadMore();
+    };
+
     const filteredLaws = computed(() => {
       let filtered = lawList.value;
-
-      console.log(filtered);
 
       return filtered;
     });
 
-    const loadMore = (page1) => {
+    const loadMore = () => {
       fetchLawListData(
-        page1,
         page.value,
         searchQuery.value,
-        (newPage) => {
-          page.value = newPage;
-        },
         (newLawList) => {
           lawList.value = [...lawList.value, ...newLawList];
         },
@@ -169,7 +168,7 @@ export default {
 
     // 최초 마운트 시 데이터 불러오기
     onMounted(() => {
-      loadMore(1);
+      loadMore();
     });
 
     return {
@@ -183,39 +182,10 @@ export default {
       goToLawDetail,
       colorList,
       goToLawPage,
+      clickLoadMore,
     };
   },
 };
-
-// const exampleData = {
-//   has_more: false,
-//   data: [
-//     {
-//       id: 1,
-//       name: "법안1",
-//       processing_status: 2,
-//       processing_result: "임기만료폐기",
-//       date: "2025-06-05",
-//       keywords: ["키워드1", "키워드2"],
-//     },
-//     {
-//       id: 2,
-//       name: "법안2",
-//       processing_status: 3,
-//       processing_result: "원안가결",
-//       date: "2025-06-05",
-//       keywords: ["키워드2", "키워드3"],
-//     },
-//     {
-//       id: 19,
-//       name: "법안19",
-//       processing_status: 5,
-//       processing_result: "임기만료폐기",
-//       date: "2025-06-05",
-//       keywords: ["키워드19", "키워드20"],
-//     },
-//   ],
-// };
 </script>
 
 <style src="@/css/Law.css" scoped></style>

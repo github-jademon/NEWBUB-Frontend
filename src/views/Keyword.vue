@@ -112,7 +112,7 @@ import {
   goToKeywordPage,
   goToIssue,
 } from "@/functions/goToLink";
-import { fetchLawListData, fetchNewsListData } from "@/functions/fetch";
+import { fetchKeywordData } from "@/functions/fetch";
 
 // const exampleData1 = [
 //   {
@@ -169,43 +169,20 @@ export default {
     const newsList = ref([]);
     const lawList = ref([]);
 
-    // 뉴스 더보기 함수
-    const loadLaw = () => {
-      fetchLawListData(
-        1,
-        1,
+    const load = () => {
+      fetchKeywordData(
         keyword.value,
-        null,
-        (newLawList) => {
-          lawList.value = newLawList;
-        },
-        null,
-        5
-      );
-    };
-
-    const loadNews = () => {
-      fetchNewsListData(
-        1,
-        1,
-        keyword.value,
-        "",
-        null,
         (newNews) => {
           newsList.value = [...newsList.value, ...newNews];
         },
-        null,
-        5
+        (newLawList) => {
+          lawList.value = newLawList;
+        }
       );
-      // if (newsList.value.length == 0) {
-      //   newsList.value = exampleData.data;
-      //   hasMore.value = exampleData.has_more;
-      // }
     };
 
     onMounted(() => {
-      loadLaw();
-      loadNews();
+      load();
     });
 
     return {

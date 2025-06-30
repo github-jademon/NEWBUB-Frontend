@@ -13,11 +13,11 @@ export const goToNewsListPage = (category = "", keyword = "") => {
   window.location.href = `/news${
     category != "" ? `?category=${category}` : ""
   }${keyword != "" ? (category == "" ? "?" : "&") : ""}${
-    keyword != "" ? `keyword=${keyword}` : ""
+    keyword != "" ? `q=${keyword}` : ""
   }`;
 };
 export const goToLawPage = (keyword = "") => {
-  window.location.href = `/law${keyword != "" ? `?keyword=${keyword}` : ""}`;
+  window.location.href = `/law${keyword != "" ? `?q=${keyword}` : ""}`;
 };
 
 export const goToParty = () => {

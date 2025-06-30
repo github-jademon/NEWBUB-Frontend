@@ -17,7 +17,7 @@
               v-model="searchQuery"
               @keyup.enter="goToSearch"
               type="text"
-              placeholder="키워드를 입력하세요"
+              placeholder="제목 또는 키워드를 입력하세요"
             />
             <button @click="goToSearch">
               <img src="@/assets/ic-search.png" />
@@ -75,7 +75,7 @@
 
         <!-- 더보기 버튼 -->
         <div class="load-more" v-if="hasMore">
-          <button @click="loadMore">더보기</button>
+          <button @click="clickLoadMore">더보기</button>
         </div>
       </div>
     </div>
@@ -120,25 +120,24 @@ export default {
     const hasMore = ref(false); // 더보기 여부
     const newsList = ref([]); // 뉴스 리스트
 
+    const clickLoadMore = () => {
+      if (hasMore.value) page.value += 1;
+      loadMore(page.value + 1);
+    };
+
     // filteredNews는 searchQuery와 selectedCategory에 따라 필터링된 뉴스
     const filteredNews = computed(() => {
       let filtered = newsList.value;
-
-      console.log(filtered);
 
       return filtered;
     });
 
     // 뉴스 더보기 함수
-    const loadMore = (page1) => {
+    const loadMore = () => {
       fetchNewsListData(
-        page1,
         page.value,
         searchQuery.value,
         selectedCategory.value,
-        (newPage) => {
-          page.value = newPage;
-        },
         (newNews) => {
           newsList.value = [...newsList.value, ...newNews];
         },
@@ -146,10 +145,6 @@ export default {
           hasMore.value = more; // 더 이상 데이터가 없으면 false
         }
       );
-      // if (newsList.value.length == 0) {
-      //   newsList.value = exampleData.data;
-      //   hasMore.value = exampleData.has_more;
-      // }
     };
 
     // 검색어로 뉴스 필터링
@@ -193,6 +188,7 @@ export default {
     });
 
     return {
+      clickLoadMore,
       searchQuery,
       selectedCategory,
       categories,

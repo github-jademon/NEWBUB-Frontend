@@ -34,7 +34,7 @@
       <div class="img">
         <img src="@/assets/issue.png" />
       </div>
-      <span>KEY WORD</span>
+      <span>KEYWORD</span>
     </div>
 
     <div class="table">
@@ -69,7 +69,7 @@
         키워드가 없습니다.
       </div>
       <div class="load-more" v-if="hasMore == true">
-        <button @click="loadMore(page.value)">더보기</button>
+        <button @click="clickLoadMore">더보기</button>
       </div>
     </div>
   </div>
@@ -129,16 +129,17 @@ export default {
     const hasMore = ref(false); // 더보기 여부
     const keywordList = ref([]); // 뉴스 리스트
 
+    const clickLoadMore = () => {
+      if (hasMore.value) page.value += 1;
+      loadMore();
+    };
+
     // 뉴스 더보기 함수
-    const loadMore = (page1) => {
+    const loadMore = () => {
       fetchIssueData(
-        page1,
         page.value,
         searchQuery.value,
         selectedCategory.value === "전체" ? "" : selectedCategory.value,
-        (newPage) => {
-          page.value = newPage;
-        },
         (newKeywordList) => {
           keywordList.value = [...keywordList.value, ...newKeywordList];
         },
@@ -146,10 +147,6 @@ export default {
           hasMore.value = more; // 더 이상 데이터가 없으면 false
         }
       );
-      // if (keywordList.value.length == 0) {
-      //   keywordList.value = exampleData.data;
-      //   hasMore.value = exampleData.has_more;
-      // }
     };
 
     // 검색어로 뉴스 필터링
@@ -197,13 +194,12 @@ export default {
       selectedCategory,
       categories,
       keywordList,
-      loadMore,
       hasMore,
-      page,
       goToSearch,
       selectCategory,
       goToKeywordPage,
       goToIssue,
+      clickLoadMore,
     };
   },
 };
